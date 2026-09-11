@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InstrumentController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\TutorialController;
+use App\Http\Controllers\UploadController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -35,17 +36,19 @@ Route::prefix('instrumen')->name('instruments.')->group(function () {
     Route::get('/{instrument:slug}/download', [InstrumentController::class, 'download'])->name('download');
 });
 
+Route::prefix('upload')->name('upload.')->group(function () {
+    Route::get('/', [UploadController::class, 'create'])->name('create');
+    Route::post('/', [UploadController::class, 'store'])->name('store')->middleware('throttle:6,1');
+});
+
 /*
 |--------------------------------------------------------------------------
 | Placeholder routes
 |--------------------------------------------------------------------------
 |
-| Modul di bawah ini akan dibangun penuh pada Phase 9 (Upload Dokumen).
-| Didaftarkan sekarang agar navbar/footer/tautan Home bisa memakai
-| route() tanpa error sebelum modulnya selesai.
+| Pencarian global dibangun penuh pada Phase 10.
 |
 */
-Route::get('/upload', fn () => view('shared.coming-soon', ['title' => 'Upload Dokumen']))->name('upload.create');
 Route::get('/pencarian', fn () => view('shared.coming-soon', ['title' => 'Pencarian']))->name('search.index');
 
 Route::prefix('admin')->name('admin.')->group(base_path('routes/admin.php'));
