@@ -4,6 +4,7 @@ use App\Http\Controllers\BookController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InstrumentController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TutorialController;
 use App\Http\Controllers\UploadController;
 use Illuminate\Support\Facades\Route;
@@ -41,14 +42,6 @@ Route::prefix('upload')->name('upload.')->group(function () {
     Route::post('/', [UploadController::class, 'store'])->name('store')->middleware('throttle:6,1');
 });
 
-/*
-|--------------------------------------------------------------------------
-| Placeholder routes
-|--------------------------------------------------------------------------
-|
-| Pencarian global dibangun penuh pada Phase 10.
-|
-*/
-Route::get('/pencarian', fn () => view('shared.coming-soon', ['title' => 'Pencarian']))->name('search.index');
+Route::get('/pencarian', [SearchController::class, 'index'])->name('search.index');
 
 Route::prefix('admin')->name('admin.')->group(base_path('routes/admin.php'));

@@ -33,6 +33,18 @@
 
         <div class="hidden items-center gap-3 lg:flex">
             <div class="relative" x-data="{ open: false }" @click.outside="open = false">
+                <button @click="open = !open; $nextTick(() => open && $refs.searchInput.focus())" type="button" aria-label="Cari"
+                        class="flex h-9 w-9 items-center justify-center rounded-full text-white/70 transition hover:bg-white/10 hover:text-white">
+                    <x-lucide-search class="h-4 w-4" />
+                </button>
+                <form x-show="open" x-transition x-cloak method="GET" action="{{ route('search.index') }}"
+                      class="absolute right-0 mt-2 w-64 rounded-lg bg-white p-2 shadow-xl">
+                    <input x-ref="searchInput" type="text" name="q" placeholder="Cari sesuatu..."
+                           class="w-full rounded-md border border-ink/15 px-3 py-1.5 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-primary/30">
+                </form>
+            </div>
+
+            <div class="relative" x-data="{ open: false }" @click.outside="open = false">
                 <button @click="open = !open" type="button" aria-label="Ganti tema tampilan"
                         class="flex h-9 w-9 items-center justify-center rounded-full text-white/70 transition hover:bg-white/10 hover:text-white">
                     <x-lucide-sun class="h-4 w-4" />
@@ -85,6 +97,10 @@
 
     <div x-show="mobileOpen" x-cloak x-transition class="border-t border-white/10 bg-secondary lg:hidden">
         <div class="space-y-1 px-4 py-3">
+            <form method="GET" action="{{ route('search.index') }}" class="mb-2">
+                <input type="text" name="q" placeholder="Cari sesuatu..."
+                       class="w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-sm text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-accent/40">
+            </form>
             @foreach ($navLinks as $link)
                 <a href="{{ route($link['route']) }}"
                    class="block rounded-lg px-3 py-2 text-sm font-medium {{ request()->routeIs($link['route']) ? 'bg-white/10 text-white' : 'text-white/70' }}">
