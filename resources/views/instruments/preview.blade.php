@@ -4,13 +4,7 @@
 
 @section('content')
 <section class="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
-    <nav class="mb-6 text-sm text-ink/50">
-        <a href="{{ route('home') }}" class="hover:text-primary">Home</a>
-        <span class="mx-1">/</span>
-        <a href="{{ route('instruments.index') }}" class="hover:text-primary">Instrumen</a>
-        <span class="mx-1">/</span>
-        <span class="text-ink">{{ $instrument->title }}</span>
-    </nav>
+    <x-breadcrumb :items="['Home' => route('home'), 'Instrumen' => route('instruments.index'), $instrument->title => null]" />
 
     <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>

@@ -4,13 +4,7 @@
 
 @section('content')
 <section class="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
-    <nav class="mb-6 text-sm text-ink/50">
-        <a href="{{ route('home') }}" class="hover:text-primary">Home</a>
-        <span class="mx-1">/</span>
-        <a href="{{ route('tutorials.index') }}" class="hover:text-primary">Tutorial</a>
-        <span class="mx-1">/</span>
-        <span class="text-ink">{{ $tutorial->title }}</span>
-    </nav>
+    <x-breadcrumb :items="['Home' => route('home'), 'Tutorial' => route('tutorials.index'), $tutorial->title => null]" />
 
     <p class="text-xs font-medium uppercase tracking-wide text-primary">{{ $tutorial->category?->name ?? ucfirst($tutorial->type) }}</p>
     <h1 class="mt-1 text-2xl font-extrabold text-secondary sm:text-3xl">{{ $tutorial->title }}</h1>

@@ -4,13 +4,7 @@
 
 @section('content')
 <section class="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
-    <nav class="mb-6 text-sm text-ink/50">
-        <a href="{{ route('home') }}" class="hover:text-primary">Home</a>
-        <span class="mx-1">/</span>
-        <a href="{{ route('books.index') }}" class="hover:text-primary">Buku Saku</a>
-        <span class="mx-1">/</span>
-        <span class="text-ink">{{ $book->title }}</span>
-    </nav>
+    <x-breadcrumb :items="['Home' => route('home'), 'Buku Saku' => route('books.index'), $book->title => null]" />
 
     <div class="grid gap-8 lg:grid-cols-[280px_1fr]">
         <div>

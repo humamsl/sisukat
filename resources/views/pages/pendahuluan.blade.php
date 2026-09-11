@@ -5,11 +5,7 @@
 @section('content')
 <section class="bg-white">
     <div class="mx-auto max-w-3xl px-4 py-14 sm:px-6 lg:px-8">
-        <nav class="mb-6 text-sm text-ink/50">
-            <a href="{{ route('home') }}" class="hover:text-primary">Home</a>
-            <span class="mx-1">/</span>
-            <span class="text-ink">{{ $page->title }}</span>
-        </nav>
+        <x-breadcrumb :items="['Home' => route('home'), $page->title => null]" />
 
         <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
             <x-lucide-book-open-text class="h-5 w-5" />
