@@ -2,6 +2,8 @@
 
 Platform digital yang menyediakan informasi, panduan, buku saku, tutorial, instrumen, dan pengelolaan dokumen untuk mendukung pelaksanaan supervisi akademik secara efektif dan terstruktur.
 
+SISUKAT adalah portal ber-login: hanya Home, Login, dan Daftar yang bisa diakses tanpa akun. Pengunjung mendaftar sendiri (role `user`) untuk membaca konten dan mengunggah dokumen; staf (`admin`/`super_admin`/`reviewer`) mengelola konten lewat dashboard admin.
+
 Dibangun dengan Laravel 12, Tailwind CSS v4, dan Alpine.js.
 
 ---
@@ -81,7 +83,7 @@ Role     : super_admin
 ## 3. Struktur Database
 
 ```
-users            — akun staf (super_admin | admin | reviewer)
+users            — akun staf (super_admin | admin | reviewer) + akun publik (user)
 categories       — taksonomi bersama untuk books/tutorials/instruments (kolom `type`)
 pages            — konten Pendahuluan, Petunjuk Penggunaan, Tentang SISUKAT
 books            — Buku Saku Digital (PDF + cover)
@@ -125,9 +127,11 @@ php artisan migrate:fresh --seed
 
 ## 6. Routing
 
-**Publik** (`routes/web.php`): `/`, `/pendahuluan`, `/petunjuk-penggunaan`, `/buku-saku[...]`, `/tutorial[...]`, `/instrumen[...]`, `/upload`, `/pencarian`.
+**Publik tanpa login** (`routes/web.php`): `/` (Home), `/login`, `/daftar`, `/sitemap.xml`.
 
-**Admin** (`routes/admin.php`, di-require dari `web.php` dengan prefix `admin` dan name prefix `admin.`): `/admin/login`, `/admin` (dashboard), `/admin/pages/{slug}/edit`, `/admin/books|tutorials|instruments` (resource CRUD), `/admin/uploads[...]`, `/admin/users` (resource, super_admin only), `/admin/settings` (super_admin only), `/admin/activity-logs` (super_admin only).
+**Butuh login** (grup middleware `auth` di `routes/web.php`): `/pendahuluan`, `/petunjuk-penggunaan`, `/buku-saku[...]`, `/tutorial[...]`, `/instrumen[...]`, `/upload`, `/pencarian`, `/profil` (ubah password sendiri), `/logout`.
+
+**Admin** (`routes/admin.php`, di-require dari `web.php` dengan prefix `admin` dan name prefix `admin.`, middleware `auth` + `admin`): `/admin` (dashboard), `/admin/pages/{slug}/edit`, `/admin/books|tutorials|instruments` (resource CRUD), `/admin/uploads[...]`, `/admin/users` (resource, super_admin only, meliputi akun staf maupun akun publik), `/admin/settings` (super_admin only), `/admin/activity-logs` (super_admin only).
 
 Jalankan `php artisan route:list` untuk daftar lengkap dengan method dan middleware.
 
@@ -135,13 +139,13 @@ Jalankan `php artisan route:list` untuk daftar lengkap dengan method dan middlew
 
 ## 7. Authentication
 
-Login admin custom (bukan Breeze/Jetstream) di `App\Http\Controllers\Admin\AuthController`, divalidasi lewat `App\Http\Requests\Admin\LoginRequest` (pola sama seperti Laravel Breeze): rate limiting 5 percobaan per kombinasi email+IP, lockout dengan pesan sisa waktu. Password di-hash dengan bcrypt (cast `'password' => 'hashed'` pada model `User`). Session di-regenerate saat login dan diinvalidasi saat logout.
+Login (`App\Http\Controllers\AuthController`) dipakai bersama oleh staf maupun akun publik — tidak ada login terpisah untuk admin. Divalidasi lewat `App\Http\Requests\LoginRequest` (pola sama seperti Laravel Breeze): rate limiting 5 percobaan per kombinasi email+IP, lockout dengan pesan sisa waktu, dan akun `is_active=false` ditolak saat login. Pendaftaran publik (`App\Http\Controllers\RegisterController`) selalu membuat akun dengan role `user`, langsung login, dan redirect ke Home — begitu juga login staf (redirect selalu ke Home, bukan ke `/admin`; staf membuka Dashboard lewat menu Profil di navbar). Password di-hash dengan bcrypt (cast `'password' => 'hashed'` pada model `User`). Session di-regenerate saat login dan diinvalidasi saat logout. Ubah password mandiri ada di `/profil` (`App\Http\Controllers\ProfileController`), mewajibkan password saat ini benar (`current_password` rule).
 
 ---
 
 ## 8. Authorization
 
-Middleware `admin` (`App\Http\Middleware\EnsureIsAdmin`) memastikan akun aktif (`is_active`) sebelum masuk `/admin/*` — semua baris di tabel `users` sudah dibatasi kolom `role` hanya untuk staf (`super_admin`/`admin`/`reviewer`).
+Middleware `admin` (`App\Http\Middleware\EnsureIsAdmin`) memastikan akun aktif (`is_active`) **dan** berperan staf (`User::isStaff()`, yaitu bukan role `user`) sebelum masuk `/admin/*`. Akun `user` yang mencoba mengakses `/admin` tidak di-logout paksa — mereka tetap sah login untuk sisi situs lain, hanya diarahkan kembali ke Home.
 
 Policy per modul (`app/Policies/`) mengatur aksi granular:
 
