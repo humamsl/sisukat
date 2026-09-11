@@ -42,6 +42,6 @@ Route::prefix('upload')->name('upload.')->group(function () {
     Route::post('/', [UploadController::class, 'store'])->name('store')->middleware('throttle:6,1');
 });
 
-Route::get('/pencarian', [SearchController::class, 'index'])->name('search.index');
+Route::get('/pencarian', [SearchController::class, 'index'])->name('search.index')->middleware('throttle:30,1');
 
 Route::prefix('admin')->name('admin.')->group(base_path('routes/admin.php'));
