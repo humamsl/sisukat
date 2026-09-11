@@ -15,6 +15,7 @@
     },
     "dependencies": {
         "alpinejs": "^3.17.2",
-        "quill": "^2.0.3"
+        "pdfjs-dist": "6.3.289",
+        "quill": "2.0.2"
     }
 }

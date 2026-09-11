@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasUniqueSlug;
 use Database\Factories\TutorialFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Tutorial extends Model
 {
     /** @use HasFactory<TutorialFactory> */
-    use HasFactory;
+    use HasFactory, HasUniqueSlug;
 
     protected $fillable = [
         'category_id',

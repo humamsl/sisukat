@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasUniqueSlug;
 use Database\Factories\BookFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Book extends Model
 {
     /** @use HasFactory<BookFactory> */
-    use HasFactory;
+    use HasFactory, HasUniqueSlug;
 
     protected $fillable = [
         'category_id',
