@@ -26,20 +26,51 @@
             <div class="sm:col-span-2">
                 <label class="mb-1 block text-sm font-medium text-secondary">Deskripsi</label>
                 <textarea name="site_description" rows="3" class="w-full rounded-lg border border-ink/15 px-3 py-2 text-sm">{{ old('site_description', $settings['site_description'] ?? '') }}</textarea>
+                <p class="mt-1 text-xs text-ink/40">Ditampilkan juga sebagai deskripsi singkat pada section "Kenali SISUKAT" di Beranda.</p>
             </div>
             <div>
                 <label class="mb-1 block text-sm font-medium text-secondary">Logo</label>
                 @if (! empty($settings['logo']))
                     <img src="{{ asset('storage/'.$settings['logo']) }}" alt="Logo" class="mb-2 h-12 rounded bg-secondary p-1">
                 @endif
-                <input name="logo" type="file" accept="image/*" class="w-full rounded-lg border border-ink/15 px-3 py-2 text-sm file:mr-3 file:rounded-md file:border-0 file:bg-primary/10 file:px-3 file:py-1.5 file:text-primary">
+                <input name="logo" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" class="w-full rounded-lg border border-ink/15 px-3 py-2 text-sm file:mr-3 file:rounded-md file:border-0 file:bg-primary/10 file:px-3 file:py-1.5 file:text-primary">
+                <p class="mt-1 text-xs text-ink/40">PNG/JPG/WEBP/SVG, maks {{ number_format(config('sisukat.uploads.logo_max_kb') / 1024, 1) }} MB. Tampil di navbar &amp; section "Kenali SISUKAT".</p>
+                @error('logo') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
             </div>
             <div>
                 <label class="mb-1 block text-sm font-medium text-secondary">Favicon</label>
                 @if (! empty($settings['favicon']))
                     <img src="{{ asset('storage/'.$settings['favicon']) }}" alt="Favicon" class="mb-2 h-8 w-8 rounded">
                 @endif
-                <input name="favicon" type="file" accept="image/*" class="w-full rounded-lg border border-ink/15 px-3 py-2 text-sm file:mr-3 file:rounded-md file:border-0 file:bg-primary/10 file:px-3 file:py-1.5 file:text-primary">
+                <input name="favicon" type="file" accept="image/x-icon,image/png,image/jpeg,.ico" class="w-full rounded-lg border border-ink/15 px-3 py-2 text-sm file:mr-3 file:rounded-md file:border-0 file:bg-primary/10 file:px-3 file:py-1.5 file:text-primary">
+                <p class="mt-1 text-xs text-ink/40">ICO/PNG/JPG, maks {{ number_format(config('sisukat.uploads.favicon_max_kb') / 1024, 1) }} MB.</p>
+                @error('favicon') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
+            </div>
+        </div>
+    </div>
+
+    <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-ink/5">
+        <h3 class="mb-1 font-semibold text-secondary">Tampilan Beranda</h3>
+        <p class="mb-4 text-xs text-ink/40">Running text dan latar hero pada halaman Beranda.</p>
+
+        <div class="space-y-4">
+            <div>
+                <label class="mb-1 block text-sm font-medium text-secondary">Running Text</label>
+                <input name="running_text" type="text" value="{{ old('running_text', $settings['running_text'] ?? '') }}"
+                       placeholder="cth. Selamat datang di SISUKAT — pusat informasi supervisi akademik"
+                       class="w-full rounded-lg border border-ink/15 px-3 py-2 text-sm">
+                <p class="mt-1 text-xs text-ink/40">Teks berjalan di bawah navbar. Kosongkan untuk menyembunyikan.</p>
+                @error('running_text') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
+            </div>
+
+            <div>
+                <label class="mb-1 block text-sm font-medium text-secondary">Background Hero</label>
+                @if (! empty($settings['hero_background']))
+                    <img src="{{ asset('storage/'.$settings['hero_background']) }}" alt="Background hero" class="mb-2 h-24 w-full rounded-lg object-cover ring-1 ring-ink/10">
+                @endif
+                <input name="hero_background" type="file" accept="image/png,image/jpeg,image/webp" class="w-full rounded-lg border border-ink/15 px-3 py-2 text-sm file:mr-3 file:rounded-md file:border-0 file:bg-primary/10 file:px-3 file:py-1.5 file:text-primary">
+                <p class="mt-1 text-xs text-ink/40">PNG/JPG/WEBP, maks {{ number_format(config('sisukat.uploads.hero_background_max_kb') / 1024, 1) }} MB. Kosongkan untuk memakai warna polos bawaan.</p>
+                @error('hero_background') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
             </div>
         </div>
     </div>

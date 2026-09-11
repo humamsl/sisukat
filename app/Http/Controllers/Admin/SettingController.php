@@ -12,11 +12,13 @@ use Illuminate\View\View;
 class SettingController extends Controller
 {
     private const TEXT_KEYS = [
-        'site_name', 'site_tagline', 'site_description',
+        'site_name', 'site_tagline', 'site_description', 'running_text',
         'contact_email', 'contact_phone', 'contact_address',
         'social_facebook', 'social_instagram', 'social_youtube',
         'copyright_text', 'color_primary', 'color_secondary', 'color_accent',
     ];
+
+    private const IMAGE_KEYS = ['logo', 'favicon', 'hero_background'];
 
     public function edit(): View
     {
@@ -35,6 +37,7 @@ class SettingController extends Controller
             'site_name' => ['required', 'string', 'max:255'],
             'site_tagline' => ['nullable', 'string', 'max:255'],
             'site_description' => ['nullable', 'string', 'max:1000'],
+            'running_text' => ['nullable', 'string', 'max:1000'],
             'contact_email' => ['nullable', 'email', 'max:255'],
             'contact_phone' => ['nullable', 'string', 'max:50'],
             'contact_address' => ['nullable', 'string', 'max:500'],
@@ -45,15 +48,19 @@ class SettingController extends Controller
             'color_primary' => ['nullable', 'string', 'max:20'],
             'color_secondary' => ['nullable', 'string', 'max:20'],
             'color_accent' => ['nullable', 'string', 'max:20'],
-            'logo' => ['nullable', 'image', 'mimes:png,jpg,jpeg,webp,svg', 'max:1024'],
-            'favicon' => ['nullable', 'image', 'mimes:png,jpg,ico', 'max:256'],
+            // Favicon sengaja tidak pakai rule `image` — Laravel tidak selalu
+            // mengenali .ico sebagai gambar valid lewat rule tersebut, padahal
+            // .ico adalah format favicon paling umum.
+            'logo' => ['nullable', 'image', 'mimes:png,jpg,jpeg,webp,svg', 'max:'.config('sisukat.uploads.logo_max_kb')],
+            'favicon' => ['nullable', 'file', 'mimes:ico,png,jpg,jpeg', 'max:'.config('sisukat.uploads.favicon_max_kb')],
+            'hero_background' => ['nullable', 'image', 'mimes:png,jpg,jpeg,webp', 'max:'.config('sisukat.uploads.hero_background_max_kb')],
         ]);
 
         foreach (self::TEXT_KEYS as $key) {
             Setting::updateOrCreate(['key' => $key], ['value' => $validated[$key] ?? null]);
         }
 
-        foreach (['logo', 'favicon'] as $fileKey) {
+        foreach (self::IMAGE_KEYS as $fileKey) {
             if ($request->hasFile($fileKey)) {
                 $path = $request->file($fileKey)->store('branding', 'public');
                 Setting::updateOrCreate(['key' => $fileKey], ['value' => $path]);

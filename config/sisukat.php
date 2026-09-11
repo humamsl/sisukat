@@ -18,6 +18,9 @@ return [
         'tutorial_thumbnail_max_kb' => (int) env('TUTORIAL_THUMBNAIL_MAX_KB', 2048),
         'instrument_file_max_kb' => (int) env('INSTRUMENT_FILE_MAX_KB', 10240),
         'document_max_kb' => (int) env('UPLOAD_DOCUMENT_MAX_KB', 10240),
+        'logo_max_kb' => (int) env('LOGO_MAX_KB', 2048),
+        'favicon_max_kb' => (int) env('FAVICON_MAX_KB', 512),
+        'hero_background_max_kb' => (int) env('HERO_BACKGROUND_MAX_KB', 4096),
     ],
 
 ];

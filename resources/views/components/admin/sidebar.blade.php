@@ -27,14 +27,12 @@
             'label' => 'Tutorial',
             'items' => [
                 ['label' => 'Daftar Tutorial', 'icon' => 'video', 'route' => 'admin.tutorials.index'],
-                ['label' => 'Tambah Tutorial', 'icon' => 'plus', 'route' => 'admin.tutorials.create'],
             ],
         ],
         [
             'label' => 'Instrumen',
             'items' => [
                 ['label' => 'Daftar Instrumen', 'icon' => 'clipboard-list', 'route' => 'admin.instruments.index'],
-                ['label' => 'Tambah Instrumen', 'icon' => 'plus', 'route' => 'admin.instruments.create'],
             ],
         ],
         [
@@ -50,7 +48,6 @@
             'label' => 'Pengguna',
             'items' => [
                 ['label' => 'Manajemen User', 'icon' => 'users', 'route' => 'admin.users.index'],
-                ['label' => 'Tambah Akun', 'icon' => 'plus', 'route' => 'admin.users.create'],
             ],
         ];
         $groups[] = [

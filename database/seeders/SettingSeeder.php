@@ -15,6 +15,8 @@ class SettingSeeder extends Seeder
             'site_description' => 'Platform digital yang menyediakan informasi, panduan, buku saku, tutorial, instrumen, dan pengelolaan dokumen untuk mendukung pelaksanaan supervisi akademik secara efektif dan terstruktur.',
             'logo' => null,
             'favicon' => null,
+            'hero_background' => null,
+            'running_text' => 'Selamat datang di SISUKAT — Sistem Informasi Supervisi Akademik Terpadu. Pusat informasi, buku saku, tutorial, dan instrumen supervisi akademik.',
             'contact_email' => 'info@sisukat.local',
             'contact_phone' => '021-0000000',
             'contact_address' => 'Jl. Pendidikan No. 1, Indonesia',
