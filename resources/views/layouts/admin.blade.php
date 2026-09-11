@@ -4,7 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Dashboard') - Admin SISUKAT</title>
-    <link rel="icon" href="data:,">
+    @php($favicon = \App\Models\Setting::get('favicon'))
+    <link rel="icon" href="{{ $favicon ? asset('storage/'.$favicon) : 'data:,' }}">
     <script>
         (function () {
             var stored = localStorage.getItem('sisukat-theme') || 'light';

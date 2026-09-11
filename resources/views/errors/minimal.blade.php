@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $code }} - SISUKAT</title>
+    {{-- Favicon settings intentionally not queried here: this page must render even if the DB is down. --}}
     <link rel="icon" href="data:,">
     @vite(['resources/css/app.css'])
 </head>

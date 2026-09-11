@@ -14,7 +14,8 @@
     <meta name="twitter:card" content="summary">
 
     <link rel="canonical" href="{{ url()->current() }}">
-    <link rel="icon" href="data:,">
+    @php($favicon = \App\Models\Setting::get('favicon'))
+    <link rel="icon" href="{{ $favicon ? asset('storage/'.$favicon) : 'data:,' }}">
     <script>
         // Default ke 'light' bila belum ada pilihan tersimpan (bukan 'system') karena
         // dark mode belum diberi styling penuh di semua komponen — lihat requirement #43.
