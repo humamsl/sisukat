@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Database\Factories\InstrumentFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Instrument extends Model
 {
-    /** @use HasFactory<\Database\Factories\InstrumentFactory> */
+    /** @use HasFactory<InstrumentFactory> */
     use HasFactory;
 
     protected $fillable = [
