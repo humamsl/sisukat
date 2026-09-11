@@ -36,7 +36,9 @@
     --color-ink: #e2e8f0;
 }
 
-body {
-    background-color: var(--color-surface);
-    color: var(--color-ink);
+@layer base {
+    body {
+        background-color: var(--color-surface);
+        color: var(--color-ink);
+    }
 }
