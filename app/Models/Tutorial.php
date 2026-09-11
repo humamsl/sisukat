@@ -49,4 +49,25 @@ class Tutorial extends Model
     {
         return 'slug';
     }
+
+    /**
+     * Convert a YouTube/Vimeo watch URL into its embeddable iframe URL.
+     * Returns null if the URL doesn't match a known provider.
+     */
+    public function getEmbedUrlAttribute(): ?string
+    {
+        if (! $this->video_url) {
+            return null;
+        }
+
+        if (preg_match('/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/', $this->video_url, $m)) {
+            return "https://www.youtube.com/embed/{$m[1]}";
+        }
+
+        if (preg_match('/vimeo\.com\/(\d+)/', $this->video_url, $m)) {
+            return "https://player.vimeo.com/video/{$m[1]}";
+        }
+
+        return null;
+    }
 }

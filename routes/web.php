@@ -3,6 +3,7 @@
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\TutorialController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -19,18 +20,23 @@ Route::prefix('buku-saku')->name('books.')->group(function () {
     Route::get('/{book:slug}/download', [BookController::class, 'download'])->name('download');
 });
 
+Route::prefix('tutorial')->name('tutorials.')->group(function () {
+    Route::get('/', [TutorialController::class, 'index'])->name('index');
+    Route::get('/{tutorial:slug}', [TutorialController::class, 'show'])->name('show');
+    Route::get('/{tutorial:slug}/file', [TutorialController::class, 'file'])->name('file');
+    Route::get('/{tutorial:slug}/thumbnail', [TutorialController::class, 'thumbnail'])->name('thumbnail');
+});
+
 /*
 |--------------------------------------------------------------------------
 | Placeholder routes
 |--------------------------------------------------------------------------
 |
-| Modul di bawah ini akan dibangun penuh pada Phase 7 (Tutorial),
-| Phase 8 (Instrumen), dan Phase 9 (Upload Dokumen). Didaftarkan
-| sekarang agar navbar/footer/tautan Home bisa memakai route() tanpa
-| error sebelum modulnya selesai.
+| Modul di bawah ini akan dibangun penuh pada Phase 8 (Instrumen) dan
+| Phase 9 (Upload Dokumen). Didaftarkan sekarang agar navbar/footer/
+| tautan Home bisa memakai route() tanpa error sebelum modulnya selesai.
 |
 */
-Route::get('/tutorial', fn () => view('shared.coming-soon', ['title' => 'Tutorial']))->name('tutorials.index');
 Route::get('/instrumen', fn () => view('shared.coming-soon', ['title' => 'Download Instrumen Supervisi']))->name('instruments.index');
 Route::get('/upload', fn () => view('shared.coming-soon', ['title' => 'Upload Dokumen']))->name('upload.create');
 Route::get('/pencarian', fn () => view('shared.coming-soon', ['title' => 'Pencarian']))->name('search.index');
