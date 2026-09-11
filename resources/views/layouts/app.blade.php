@@ -29,6 +29,7 @@
 </head>
 <body class="bg-surface text-ink antialiased">
     <x-navbar />
+    <x-marquee />
 
     <main>
         @yield('content')

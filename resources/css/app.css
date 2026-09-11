@@ -131,4 +131,23 @@
         width: 2px;
         background-color: color-mix(in srgb, var(--color-ink) 15%, transparent);
     }
+
+    .animate-marquee {
+        animation: sisukat-marquee 28s linear infinite;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .animate-marquee {
+            animation: none;
+        }
+    }
+}
+
+@keyframes sisukat-marquee {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
 }

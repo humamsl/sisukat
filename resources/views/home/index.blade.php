@@ -4,8 +4,13 @@
 
 @section('content')
 {{-- Hero --}}
-<section class="relative overflow-hidden bg-secondary text-white">
-    <div class="mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:items-center lg:py-24 lg:px-8">
+@php($heroBg = \App\Models\Setting::get('hero_background'))
+<section class="relative overflow-hidden bg-secondary bg-cover bg-center text-white"
+         @if ($heroBg) style="background-image: url('{{ asset('storage/'.$heroBg) }}')" @endif>
+    @if ($heroBg)
+        <div class="absolute inset-0 bg-secondary/85"></div>
+    @endif
+    <div class="relative mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:items-center lg:py-24 lg:px-8">
         <div data-aos>
             <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-accent">
                 <span class="h-px w-8 bg-accent"></span>
@@ -72,12 +77,26 @@
 </section> -->
 
 {{-- Kenali SISUKAT --}}
-<section class="bg-white py-16">
+@php($logo = \App\Models\Setting::get('logo'))
+<section class="bg-white py-20 sm:py-28">
+    <div class="mx-auto mb-14 max-w-2xl px-4 text-center sm:px-6">
+        @if ($logo)
+            <img src="{{ asset('storage/'.$logo) }}" alt="Logo Sekolah" class="mx-auto h-16 w-auto object-contain">
+        @else
+            <span class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent text-lg font-bold text-white">SK</span>
+        @endif
+
+        <h2 class="mt-6 text-2xl font-bold text-secondary sm:text-3xl">Kenali SISUKAT</h2>
+
+        @if ($settingDescription = \App\Models\Setting::get('site_description'))
+            <p class="mt-3 text-ink/60">{{ $settingDescription }}</p>
+        @endif
+    </div>
+
     <div class="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:items-start lg:px-8">
         <div>
-            <h2 class="text-2xl font-bold text-secondary sm:text-3xl">Kenali SISUKAT</h2>
             @if ($about)
-                <div class="prose-sisukat mt-4 [&>h3:first-child]:mt-0">
+                <div class="prose-sisukat [&>h3:first-child]:mt-0">
                     {!! $about->content !!}
                 </div>
             @endif
