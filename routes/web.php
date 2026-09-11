@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InstrumentController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\TutorialController;
 use App\Http\Controllers\UploadController;
 use Illuminate\Support\Facades\Route;
@@ -43,5 +44,7 @@ Route::prefix('upload')->name('upload.')->group(function () {
 });
 
 Route::get('/pencarian', [SearchController::class, 'index'])->name('search.index')->middleware('throttle:30,1');
+
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
 Route::prefix('admin')->name('admin.')->group(base_path('routes/admin.php'));
