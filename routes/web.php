@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\InstrumentController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\TutorialController;
 use Illuminate\Support\Facades\Route;
@@ -27,17 +28,23 @@ Route::prefix('tutorial')->name('tutorials.')->group(function () {
     Route::get('/{tutorial:slug}/thumbnail', [TutorialController::class, 'thumbnail'])->name('thumbnail');
 });
 
+Route::prefix('instrumen')->name('instruments.')->group(function () {
+    Route::get('/', [InstrumentController::class, 'index'])->name('index');
+    Route::get('/{instrument:slug}/preview', [InstrumentController::class, 'preview'])->name('preview');
+    Route::get('/{instrument:slug}/file', [InstrumentController::class, 'file'])->name('file');
+    Route::get('/{instrument:slug}/download', [InstrumentController::class, 'download'])->name('download');
+});
+
 /*
 |--------------------------------------------------------------------------
 | Placeholder routes
 |--------------------------------------------------------------------------
 |
-| Modul di bawah ini akan dibangun penuh pada Phase 8 (Instrumen) dan
-| Phase 9 (Upload Dokumen). Didaftarkan sekarang agar navbar/footer/
-| tautan Home bisa memakai route() tanpa error sebelum modulnya selesai.
+| Modul di bawah ini akan dibangun penuh pada Phase 9 (Upload Dokumen).
+| Didaftarkan sekarang agar navbar/footer/tautan Home bisa memakai
+| route() tanpa error sebelum modulnya selesai.
 |
 */
-Route::get('/instrumen', fn () => view('shared.coming-soon', ['title' => 'Download Instrumen Supervisi']))->name('instruments.index');
 Route::get('/upload', fn () => view('shared.coming-soon', ['title' => 'Upload Dokumen']))->name('upload.create');
 Route::get('/pencarian', fn () => view('shared.coming-soon', ['title' => 'Pencarian']))->name('search.index');
 

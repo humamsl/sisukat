@@ -57,4 +57,19 @@ class Instrument extends Model
     {
         return 'slug';
     }
+
+    public function getFileSizeFormattedAttribute(): string
+    {
+        $bytes = $this->file_size ?? 0;
+
+        if ($bytes < 1024) {
+            return "{$bytes} B";
+        }
+
+        if ($bytes < 1024 * 1024) {
+            return round($bytes / 1024, 1).' KB';
+        }
+
+        return round($bytes / (1024 * 1024), 1).' MB';
+    }
 }
