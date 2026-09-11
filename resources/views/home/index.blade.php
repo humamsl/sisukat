@@ -12,24 +12,12 @@
                 Sistem Informasi Supervisi Akademik Terpadu
             </div>
 
-            <h1 class="mt-4 text-3xl font-extrabold leading-tight sm:text-4xl lg:text-5xl">
-                Transformasi Supervisi Akademik Menjadi Lebih Terpadu dan Digital
-            </h1>
+            <h1 class="mt-4 text-3xl font-extrabold leading-tight sm:text-4xl lg:text-5xl"> Selamat Datang di </h1>
+            <h1 class="mt-4 text-3xl font-extrabold leading-tight sm:text-4xl lg:text-5xl"> SISUKAT </h1>
 
             <p class="mt-5 max-w-xl text-white/70">
                 Platform digital yang menyediakan informasi, panduan, buku saku, tutorial, instrumen, dan pengelolaan dokumen untuk mendukung pelaksanaan supervisi akademik secara efektif dan terstruktur.
             </p>
-
-            <div class="mt-8 flex flex-wrap gap-3">
-                <a href="{{ route('pages.pendahuluan') }}"
-                   class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-primary to-accent px-6 py-3 text-sm font-semibold transition hover:opacity-90">
-                    Pelajari SISUKAT <x-lucide-arrow-right class="h-4 w-4" />
-                </a>
-                <a href="{{ route('instruments.index') }}"
-                   class="inline-flex items-center gap-2 rounded-full border border-white/20 px-6 py-3 text-sm font-semibold transition hover:border-white/40 hover:bg-white/5">
-                    <x-lucide-download class="h-4 w-4" /> Download Instrumen
-                </a>
-            </div>
 
             <div class="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-4">
                 @foreach ([
@@ -53,7 +41,7 @@
         </div>
     </div>
 </section>
-
+<!--
 {{-- Fitur Utama --}}
 <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
     <div class="mx-auto max-w-2xl text-center">
@@ -81,7 +69,7 @@
             Fasilitas untuk mengunggah dokumen terkait supervisi akademik.
         </x-feature-card>
     </div>
-</section>
+</section> -->
 
 {{-- Kenali SISUKAT --}}
 <section class="bg-white py-16">

@@ -71,7 +71,7 @@
             @else
                 <a href="{{ route('admin.login') }}"
                    class="rounded-full border border-white/20 px-4 py-1.5 text-sm font-medium transition hover:border-white/40 hover:bg-white/5">
-                    Login Admin
+                    Login
                 </a>
             @endauth
         </div>
@@ -100,7 +100,7 @@
                         <button type="submit" class="block w-full rounded-lg px-3 py-2 text-left text-sm font-medium text-white/70">Logout</button>
                     </form>
                 @else
-                    <a href="{{ route('admin.login') }}" class="block rounded-lg px-3 py-2 text-sm font-medium text-white/70">Login Admin</a>
+                    <a href="{{ route('admin.login') }}" class="block rounded-lg px-3 py-2 text-sm font-medium text-white/70">Login</a>
                 @endauth
             </div>
         </div>
