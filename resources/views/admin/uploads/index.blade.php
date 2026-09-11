@@ -52,7 +52,7 @@
                             <div class="flex items-center justify-end gap-3">
                                 <a href="{{ route('admin.uploads.show', $upload) }}" class="text-ink/50 hover:text-primary" title="Detail"><x-lucide-eye class="h-4 w-4" /></a>
                                 <a href="{{ route('admin.uploads.download', $upload) }}" class="text-ink/50 hover:text-primary" title="Download"><x-lucide-download class="h-4 w-4" /></a>
-                                <x-confirm-delete :action="route('admin.uploads.destroy', $upload)" :label="'dokumen dari \"'.$upload->name.'\"'" />
+                                <x-confirm-delete :action="route('admin.uploads.destroy', $upload)" :label="'dokumen dari '.$upload->name" />
                             </div>
                         </td>
                     </tr>

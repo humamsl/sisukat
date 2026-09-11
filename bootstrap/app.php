@@ -19,8 +19,8 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->append(SecureHeaders::class);
 
-        $middleware->redirectGuestsTo(fn () => route('admin.login'));
-        $middleware->redirectUsersTo(fn () => route('admin.dashboard'));
+        $middleware->redirectGuestsTo(fn () => route('login'));
+        $middleware->redirectUsersTo(fn () => route('home'));
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Admin\ActivityLogController;
-use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\InstrumentController;
@@ -19,17 +18,12 @@ use Illuminate\Support\Facades\Route;
 |
 | Semua route dashboard admin SISUKAT (/admin/*), di-require dari
 | routes/web.php dengan prefix 'admin' dan name prefix 'admin.'.
+| Login/logout/register kini berada di routes/web.php (dipakai
+| bersama oleh akun staf maupun akun user publik).
 |
 */
 
-Route::middleware('guest')->group(function () {
-    Route::get('login', [AuthController::class, 'showLogin'])->name('login');
-    Route::post('login', [AuthController::class, 'login'])->name('login.store');
-});
-
 Route::middleware(['auth', 'admin'])->group(function () {
-    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
-
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('pages/{page:slug}/edit', [PageController::class, 'edit'])->name('pages.edit');

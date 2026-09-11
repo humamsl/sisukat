@@ -79,6 +79,6 @@ test('admin can delete a book and its files are removed', function () {
 });
 
 test('guest cannot manage books', function () {
-    $this->get(route('admin.books.index'))->assertRedirect(route('admin.login'));
-    $this->post(route('admin.books.store'), [])->assertRedirect(route('admin.login'));
+    $this->get(route('admin.books.index'))->assertRedirect(route('login'));
+    $this->post(route('admin.books.store'), [])->assertRedirect(route('login'));
 });

@@ -25,7 +25,7 @@
                     <p class="font-medium text-secondary">{{ auth()->user()->name }}</p>
                     <p class="text-xs uppercase tracking-wide text-primary">{{ auth()->user()->role }}</p>
                 </div>
-                <form method="POST" action="{{ route('admin.logout') }}">
+                <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="flex w-full items-center gap-2 px-3 py-2 text-left text-red-600 hover:bg-red-50">
                         <x-lucide-log-out class="h-4 w-4" /> Logout

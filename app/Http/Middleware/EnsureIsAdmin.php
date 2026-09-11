@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class EnsureIsAdmin
@@ -13,17 +12,14 @@ class EnsureIsAdmin
     {
         $user = $request->user();
 
-        // Kolom `role` sudah membatasi tabel `users` hanya untuk akun staf
-        // (super_admin/admin/reviewer) — di sini cukup pastikan akun masih aktif.
-        // Pembatasan per-aksi berdasarkan role dilakukan lewat Policy masing-masing modul.
-        if (! $user || ! $user->is_active) {
-            Auth::guard('web')->logout();
-            $request->session()->invalidate();
-            $request->session()->regenerateToken();
-
+        // Sejak akun publik (role 'user') ditambahkan, tabel `users` tidak lagi
+        // eksklusif untuk staf — di sini pastikan akun aktif DAN berperan staf
+        // (super_admin/admin/reviewer). Pembatasan per-aksi berdasarkan role
+        // spesifik dilakukan lewat Policy masing-masing modul.
+        if (! $user || ! $user->is_active || ! $user->isStaff()) {
             return redirect()
-                ->route('admin.login')
-                ->withErrors(['email' => 'Akun tidak memiliki akses admin atau sudah tidak aktif.']);
+                ->route('home')
+                ->with('status', 'Anda tidak memiliki akses ke halaman admin.');
         }
 
         return $next($request);

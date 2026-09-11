@@ -17,7 +17,17 @@ class UserController extends Controller
     {
         $this->authorize('viewAny', User::class);
 
-        $users = User::query()->latest('id')->paginate(15);
+        $users = User::query()
+            ->when(request('role'), fn ($q) => $q->where('role', request('role')))
+            ->when(request('search'), function ($q) {
+                $term = '%'.mb_strtolower(request('search')).'%';
+                $q->where(fn ($q2) => $q2
+                    ->whereRaw('LOWER(name) LIKE ?', [$term])
+                    ->orWhereRaw('LOWER(email) LIKE ?', [$term]));
+            })
+            ->latest('id')
+            ->paginate(15)
+            ->withQueryString();
 
         return view('admin.users.index', ['users' => $users]);
     }
@@ -37,9 +47,9 @@ class UserController extends Controller
 
         $user = User::create($data);
 
-        ActivityLogger::log('create', "Menambahkan admin \"{$user->name}\"", $user);
+        ActivityLogger::log('create', "Menambahkan akun \"{$user->name}\"", $user);
 
-        return redirect()->route('admin.users.index')->with('status', 'Admin berhasil ditambahkan.');
+        return redirect()->route('admin.users.index')->with('status', 'Akun berhasil ditambahkan.');
     }
 
     public function edit(User $user): View
@@ -63,9 +73,9 @@ class UserController extends Controller
 
         $user->update($data);
 
-        ActivityLogger::log('update', "Memperbarui admin \"{$user->name}\"", $user);
+        ActivityLogger::log('update', "Memperbarui akun \"{$user->name}\"", $user);
 
-        return redirect()->route('admin.users.index')->with('status', 'Admin berhasil diperbarui.');
+        return redirect()->route('admin.users.index')->with('status', 'Akun berhasil diperbarui.');
     }
 
     public function destroy(User $user): RedirectResponse
@@ -75,8 +85,8 @@ class UserController extends Controller
         $name = $user->name;
         $user->delete();
 
-        ActivityLogger::log('delete', "Menghapus admin \"{$name}\"");
+        ActivityLogger::log('delete', "Menghapus akun \"{$name}\"");
 
-        return redirect()->route('admin.users.index')->with('status', 'Admin berhasil dihapus.');
+        return redirect()->route('admin.users.index')->with('status', 'Akun berhasil dihapus.');
     }
 }

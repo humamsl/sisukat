@@ -56,7 +56,7 @@
                         <td class="px-4 py-3">
                             <div class="flex items-center justify-end gap-3">
                                 <a href="{{ route('admin.tutorials.edit', $tutorial) }}" class="text-ink/50 hover:text-primary" title="Edit"><x-lucide-pencil class="h-4 w-4" /></a>
-                                <x-confirm-delete :action="route('admin.tutorials.destroy', $tutorial)" :label="'tutorial \"'.$tutorial->title.'\"'" />
+                                <x-confirm-delete :action="route('admin.tutorials.destroy', $tutorial)" :label="'tutorial '.$tutorial->title" />
                             </div>
                         </td>
                     </tr>

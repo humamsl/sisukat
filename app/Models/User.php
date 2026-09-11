@@ -20,6 +20,8 @@ class User extends Authenticatable
 
     public const ROLE_REVIEWER = 'reviewer';
 
+    public const ROLE_USER = 'user';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -76,5 +78,13 @@ class User extends Authenticatable
     public function canManage(): bool
     {
         return $this->isAdmin();
+    }
+
+    /**
+     * Staff = any role that isn't a plain registered visitor.
+     */
+    public function isStaff(): bool
+    {
+        return $this->role !== self::ROLE_USER;
     }
 }

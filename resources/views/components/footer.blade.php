@@ -24,9 +24,15 @@
             <div>
                 <h3 class="mb-3 text-sm font-semibold text-white">Navigasi</h3>
                 <ul class="space-y-2 text-sm">
-                    @foreach ($footerLinks as $link)
-                        <li><a href="{{ route($link['route']) }}" class="transition hover:text-white">{{ $link['label'] }}</a></li>
-                    @endforeach
+                    @auth
+                        @foreach ($footerLinks as $link)
+                            <li><a href="{{ route($link['route']) }}" class="transition hover:text-white">{{ $link['label'] }}</a></li>
+                        @endforeach
+                    @else
+                        <li><a href="{{ route('home') }}" class="transition hover:text-white">Home</a></li>
+                        <li><a href="{{ route('login') }}" class="transition hover:text-white">Login</a></li>
+                        <li><a href="{{ route('register') }}" class="transition hover:text-white">Daftar Akun</a></li>
+                    @endauth
                 </ul>
             </div>
 

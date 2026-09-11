@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Admin;
+namespace App\Http\Requests;
 
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
@@ -36,6 +36,15 @@ class LoginRequest extends FormRequest
 
             throw ValidationException::withMessages([
                 'email' => 'Email atau password tidak sesuai.',
+            ]);
+        }
+
+        if (! Auth::user()->is_active) {
+            Auth::logout();
+            RateLimiter::hit($this->throttleKey());
+
+            throw ValidationException::withMessages([
+                'email' => 'Akun Anda sudah tidak aktif. Hubungi admin untuk bantuan.',
             ]);
         }
 

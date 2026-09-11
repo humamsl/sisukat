@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\LoginRequest;
+use App\Http\Requests\LoginRequest;
 use App\Services\ActivityLogger;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -14,7 +13,7 @@ class AuthController extends Controller
 {
     public function showLogin(): View
     {
-        return view('admin.auth.login');
+        return view('auth.login');
     }
 
     public function login(LoginRequest $request): RedirectResponse
@@ -28,7 +27,7 @@ class AuthController extends Controller
 
         ActivityLogger::log('login', "Login sebagai {$user->name}");
 
-        return redirect()->intended(route('admin.dashboard'));
+        return redirect()->route('home')->with('status', 'Berhasil masuk. Selamat datang, '.$user->name.'.');
     }
 
     public function logout(Request $request): RedirectResponse
@@ -40,6 +39,6 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('admin.login');
+        return redirect()->route('home');
     }
 }

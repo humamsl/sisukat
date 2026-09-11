@@ -49,8 +49,8 @@
         $groups[] = [
             'label' => 'Pengguna',
             'items' => [
-                ['label' => 'Daftar Admin', 'icon' => 'users', 'route' => 'admin.users.index'],
-                ['label' => 'Tambah Admin', 'icon' => 'plus', 'route' => 'admin.users.create'],
+                ['label' => 'Manajemen User', 'icon' => 'users', 'route' => 'admin.users.index'],
+                ['label' => 'Tambah Akun', 'icon' => 'plus', 'route' => 'admin.users.create'],
             ],
         ];
         $groups[] = [
@@ -89,7 +89,7 @@
             </div>
         @endforeach
 
-        <form method="POST" action="{{ route('admin.logout') }}">
+        <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit" class="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm font-medium text-white/70 hover:bg-white/5 hover:text-white">
                 <x-lucide-log-out class="h-4 w-4 shrink-0" /> Logout

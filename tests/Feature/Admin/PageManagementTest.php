@@ -23,5 +23,5 @@ test('admin can update page content and it is sanitized', function () {
 test('guest cannot edit pages', function () {
     $page = Page::create(['slug' => 'pendahuluan', 'title' => 'Pendahuluan', 'content' => '<p>x</p>', 'status' => 'published']);
 
-    $this->get(route('admin.pages.edit', $page))->assertRedirect(route('admin.login'));
+    $this->get(route('admin.pages.edit', $page))->assertRedirect(route('login'));
 });

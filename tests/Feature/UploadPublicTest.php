@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 beforeEach(function () {
     Storage::fake('local');
     Notification::fake();
+    $this->submitter = User::factory()->create(['role' => User::ROLE_USER]);
 });
 
 function validUploadPayload(array $overrides = []): array
@@ -27,8 +28,12 @@ function validUploadPayload(array $overrides = []): array
     ], $overrides);
 }
 
-test('a visitor can submit a document upload', function () {
-    $response = $this->post(route('upload.store'), validUploadPayload());
+test('guest cannot reach the upload form', function () {
+    $this->get(route('upload.create'))->assertRedirect(route('login'));
+});
+
+test('a logged in user can submit a document upload', function () {
+    $response = $this->actingAs($this->submitter)->post(route('upload.store'), validUploadPayload());
 
     $response->assertRedirect(route('upload.create'));
     $response->assertSessionHas('status');
@@ -42,13 +47,13 @@ test('a visitor can submit a document upload', function () {
 });
 
 test('upload requires the agreement checkbox to be accepted', function () {
-    $response = $this->post(route('upload.store'), validUploadPayload(['agreement' => null]));
+    $response = $this->actingAs($this->submitter)->post(route('upload.store'), validUploadPayload(['agreement' => null]));
 
     $response->assertSessionHasErrors('agreement');
 });
 
 test('upload rejects disallowed file types such as php', function () {
-    $response = $this->post(route('upload.store'), validUploadPayload([
+    $response = $this->actingAs($this->submitter)->post(route('upload.store'), validUploadPayload([
         'file' => UploadedFile::fake()->create('shell.php', 10, 'application/x-httpd-php'),
     ]));
 
@@ -59,7 +64,7 @@ test('upload rejects disallowed file types such as php', function () {
 test('upload rejects files over the configured size limit', function () {
     $maxKb = config('sisukat.uploads.document_max_kb');
 
-    $response = $this->post(route('upload.store'), validUploadPayload([
+    $response = $this->actingAs($this->submitter)->post(route('upload.store'), validUploadPayload([
         'file' => UploadedFile::fake()->create('besar.pdf', $maxKb + 500, 'application/pdf'),
     ]));
 
@@ -70,7 +75,7 @@ test('upload notifies active admins but not inactive ones', function () {
     $admin = User::factory()->create();
     $inactive = User::factory()->create(['is_active' => false]);
 
-    $this->post(route('upload.store'), validUploadPayload());
+    $this->actingAs($this->submitter)->post(route('upload.store'), validUploadPayload());
 
     Notification::assertSentTo($admin, NewUploadSubmitted::class);
     Notification::assertNotSentTo($inactive, NewUploadSubmitted::class);

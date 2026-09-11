@@ -22,7 +22,7 @@ function makeUpload(array $overrides = []): Upload
 }
 
 test('guest cannot view the upload inbox', function () {
-    $this->get(route('admin.uploads.index'))->assertRedirect(route('admin.login'));
+    $this->get(route('admin.uploads.index'))->assertRedirect(route('login'));
 });
 
 test('admin can view and download an uploaded document', function () {
