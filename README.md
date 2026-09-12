@@ -1,6 +1,6 @@
 # SISUKAT — Sistem Informasi Supervisi Akademik Terpadu
 
-Platform digital yang menyediakan informasi, panduan, buku saku, tutorial, instrumen, dan pengelolaan dokumen untuk mendukung pelaksanaan supervisi akademik secara efektif dan terstruktur.
+Platform digital yang menyediakan informasi, panduan, Buku Panduan, tutorial, instrumen, dan pengelolaan dokumen untuk mendukung pelaksanaan supervisi akademik secara efektif dan terstruktur.
 
 SISUKAT adalah portal ber-login: hanya Home, Login, dan Daftar yang bisa diakses tanpa akun. Pengunjung mendaftar sendiri (role `user`) untuk membaca konten dan mengunggah dokumen; staf (`admin`/`super_admin`/`reviewer`) mengelola konten lewat dashboard admin.
 
@@ -86,7 +86,7 @@ Role     : super_admin
 users            — akun staf (super_admin | admin | reviewer) + akun publik (user)
 categories       — taksonomi bersama untuk books/tutorials/instruments (kolom `type`)
 pages            — konten Pendahuluan, Petunjuk Penggunaan, Tentang SISUKAT
-books            — Buku Saku Digital (PDF + cover)
+books            — Buku Panduan Digital (PDF + cover)
 tutorials        — Tutorial (article/video/pdf/image/link)
 instruments      — Instrumen Supervisi (pdf/doc/docx/xls/xlsx)
 uploads          — Dokumen masuk dari form publik "Upload Dokumen"
@@ -362,7 +362,7 @@ Pantau `storage/logs/laravel.log` (rotasi otomatis via driver `daily` — ubah `
 | Upload gagal terus meski file valid | Cek `upload_max_filesize` & `post_max_size` di `php.ini` PHP-FPM — harus ≥ batas di `config/sisukat.php`; cek juga `client_max_body_size` di Nginx. |
 | Notifikasi email upload tidak terkirim | Queue worker tidak jalan (`sudo systemctl status sisukat-queue`) atau `MAIL_*` di `.env` belum dikonfigurasi. Cek `php artisan queue:failed`. |
 | Login admin gagal terus / "Terlalu banyak percobaan" | Rate limiter aktif (5x/menit per email+IP) — tunggu, atau `php artisan cache:clear` di lingkungan development. |
-| File PDF tidak tampil di pembaca buku saku | Periksa Network tab browser untuk request ke `/buku-saku/{slug}/file` — pastikan file benar-benar ada di `storage/app/private/books/` dan `php artisan storage:link` sudah dijalankan (untuk aset publik lain). |
+| File PDF tidak tampil di pembaca Buku Panduan | Periksa Network tab browser untuk request ke `/buku-saku/{slug}/file` — pastikan file benar-benar ada di `storage/app/private/books/` dan `php artisan storage:link` sudah dijalankan (untuk aset publik lain). |
 | Permission denied saat Laravel menulis log/cache | `storage/` dan `bootstrap/cache/` harus writable oleh user web server: `sudo chmod -R 775 storage bootstrap/cache && sudo chown -R www-data:www-data storage bootstrap/cache`. |
 
 ---

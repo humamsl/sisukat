@@ -34,7 +34,7 @@
                     <img src="{{ asset('storage/'.$settings['logo']) }}" alt="Logo" class="mb-2 h-12 rounded bg-secondary p-1">
                 @endif
                 <input name="logo" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" class="w-full rounded-lg border border-ink/15 px-3 py-2 text-sm file:mr-3 file:rounded-md file:border-0 file:bg-primary/10 file:px-3 file:py-1.5 file:text-primary">
-                <p class="mt-1 text-xs text-ink/40">PNG/JPG/WEBP/SVG, maks {{ number_format(config('sisukat.uploads.logo_max_kb') / 1024, 1) }} MB. Tampil di navbar &amp; section "Kenali SISUKAT".</p>
+                <p class="mt-1 text-xs text-ink/40">PNG/JPG/WEBP/SVG, maks {{ number_format(config('sisukat.uploads.logo_max_kb') / 1024, 1) }} MB. Tampil di navbar &amp;</p>
                 @error('logo') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
             </div>
             <div>

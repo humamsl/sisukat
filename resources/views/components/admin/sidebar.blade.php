@@ -12,15 +12,13 @@
             'label' => 'Konten Website',
             'items' => [
                 ['label' => 'Pendahuluan', 'icon' => 'file-text', 'route' => 'admin.pages.edit', 'params' => ['page' => 'pendahuluan']],
-                ['label' => 'Petunjuk Penggunaan', 'icon' => 'file-text', 'route' => 'admin.pages.edit', 'params' => ['page' => 'petunjuk-penggunaan']],
                 ['label' => 'Tentang SISUKAT', 'icon' => 'file-text', 'route' => 'admin.pages.edit', 'params' => ['page' => 'tentang-sisukat']],
             ],
         ],
         [
-            'label' => 'Buku Saku',
+            'label' => 'Buku Panduan',
             'items' => [
                 ['label' => 'Daftar Buku', 'icon' => 'book-open', 'route' => 'admin.books.index'],
-                ['label' => 'Tambah Buku', 'icon' => 'plus', 'route' => 'admin.books.create'],
             ],
         ],
         [

@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'SISUKAT') - Sistem Informasi Supervisi Akademik Terpadu</title>
-    <meta name="description" content="@yield('meta_description', 'Platform digital yang menyediakan informasi, panduan, buku saku, tutorial, instrumen, dan pengelolaan dokumen untuk mendukung pelaksanaan supervisi akademik.')">
+    <meta name="description" content="@yield('meta_description', 'Platform digital yang menyediakan Informasi, Buku Panduan, Tutorial, Instrumen, dan Pengelolaan dokumen untuk mendukung pelaksanaan supervisi akademik.')">
 
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="SISUKAT">
     <meta property="og:title" content="@yield('title', 'SISUKAT') - Sistem Informasi Supervisi Akademik Terpadu">
-    <meta property="og:description" content="@yield('meta_description', 'Platform digital yang menyediakan informasi, panduan, buku saku, tutorial, instrumen, dan pengelolaan dokumen untuk mendukung pelaksanaan supervisi akademik.')">
+    <meta property="og:description" content="@yield('meta_description', 'Platform digital yang menyediakan Informasi, Buku Panduan, Tutorial, Instrumen, dan Pengelolaan dokumen untuk mendukung pelaksanaan supervisi akademik.')">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta name="twitter:card" content="summary">
 

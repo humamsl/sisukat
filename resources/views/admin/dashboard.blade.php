@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-    <x-admin.stat-card icon="book-open" label="Total Buku Saku" :value="$stats['books']" color="primary" />
+    <x-admin.stat-card icon="book-open" label="Total Buku Panduan" :value="$stats['books']" color="primary" />
     <x-admin.stat-card icon="video" label="Total Tutorial" :value="$stats['tutorials']" color="accent" />
     <x-admin.stat-card icon="clipboard-list" label="Total Instrumen" :value="$stats['instruments']" color="secondary" />
     <x-admin.stat-card icon="inbox" label="Total Upload" :value="$stats['uploads']" color="primary" />

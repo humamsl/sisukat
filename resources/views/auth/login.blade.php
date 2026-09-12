@@ -1,6 +1,6 @@
 <x-auth.layout title="Login">
     <h1 class="mb-1 text-lg font-semibold">Masuk ke SISUKAT</h1>
-    <p class="mb-6 text-sm text-ink/60">Masuk untuk mengakses informasi, buku saku, tutorial, dan instrumen supervisi akademik.</p>
+    <p class="mb-6 text-sm text-ink/60">Masuk untuk mengakses informasi, Buku Panduan, tutorial, dan instrumen supervisi akademik.</p>
 
     @if ($errors->any())
         <div class="mb-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">

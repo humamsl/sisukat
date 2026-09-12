@@ -62,7 +62,7 @@ class PageSeeder extends Seeder
                 <ol>
                     <li>Buka halaman SISUKAT melalui browser.</li>
                     <li>Baca informasi pada halaman Pendahuluan untuk memahami dasar supervisi akademik.</li>
-                    <li>Pelajari Buku Saku Digital yang tersedia sebagai panduan praktis.</li>
+                    <li>Pelajari Buku Panduan Digital yang tersedia sebagai panduan praktis.</li>
                     <li>Ikuti Tutorial yang sesuai dengan kebutuhan Anda.</li>
                     <li>Unduh Instrumen Supervisi yang relevan dengan kegiatan yang akan dilakukan.</li>
                     <li>Isi instrumen sesuai dengan hasil observasi/kegiatan supervisi.</li>

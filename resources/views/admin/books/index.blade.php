@@ -1,10 +1,10 @@
 @extends('layouts.admin')
 
-@section('title', 'Buku Saku')
+@section('title', 'Buku Panduan')
 
 @section('content')
 <div class="mb-5 flex flex-wrap items-center justify-between gap-3">
-    <h2 class="text-lg font-semibold text-secondary">Daftar Buku Saku</h2>
+    <h2 class="text-lg font-semibold text-secondary">Daftar Buku Panduan</h2>
     <a href="{{ route('admin.books.create') }}" class="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white hover:opacity-90">
         <x-lucide-plus class="h-4 w-4" /> Tambah Buku
     </a>
@@ -28,7 +28,7 @@
 </form>
 
 @if ($books->isEmpty())
-    <x-empty-state icon="book-open" title="Belum ada buku" description="Tambahkan buku saku digital pertama Anda.">
+    <x-empty-state icon="book-open" title="Belum ada buku" description="Tambahkan Buku Panduan digital pertama Anda.">
         <x-slot:action>
             <a href="{{ route('admin.books.create') }}" class="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white">Tambah Buku</a>
         </x-slot:action>

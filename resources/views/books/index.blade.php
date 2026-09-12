@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Buku Saku Digital')
+@section('title', 'Buku Panduan Digital')
 
 @section('content')
 <section class="bg-secondary py-12 text-white">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <h1 class="text-2xl font-extrabold sm:text-3xl">Buku Saku Digital</h1>
+        <h1 class="text-2xl font-extrabold sm:text-3xl">Buku Panduan Digital</h1>
         <p class="mt-2 max-w-2xl text-white/70">Kumpulan buku dan panduan digital seputar supervisi akademik yang dapat dibaca dan diunduh secara online.</p>
     </div>
 </section>

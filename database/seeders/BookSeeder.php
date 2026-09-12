@@ -15,7 +15,7 @@ class BookSeeder extends Seeder
 
         $books = [
             [
-                'title' => 'Buku Saku Supervisi Akademik',
+                'title' => 'Buku Panduan Supervisi Akademik',
                 'category' => 'Panduan Supervisi',
                 'author' => 'Tim Penyusun SISUKAT',
                 'description' => 'Panduan ringkas langkah-langkah pelaksanaan supervisi akademik bagi kepala sekolah dan pengawas.',

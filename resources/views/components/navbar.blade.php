@@ -2,8 +2,7 @@
     $navLinks = [
         ['label' => 'Home', 'route' => 'home'],
         ['label' => 'Pendahuluan', 'route' => 'pages.pendahuluan'],
-        ['label' => 'Petunjuk Penggunaan', 'route' => 'pages.petunjuk'],
-        ['label' => 'Buku Saku', 'route' => 'books.index'],
+        ['label' => 'Buku Panduan', 'route' => 'books.index'],
         ['label' => 'Tutorial', 'route' => 'tutorials.index'],
         ['label' => 'Instrumen', 'route' => 'instruments.index'],
         ['label' => 'Upload', 'route' => 'upload.create'],
@@ -16,7 +15,7 @@
     :class="scrolled ? 'shadow-lg shadow-black/20' : ''"
     class="sticky top-0 z-50 bg-secondary text-white transition-shadow"
 >
-    <nav class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+    <nav class="mx-auto flex h-16 max-w-[1600px] items-center justify-between px-4 sm:px-6 lg:px-8 2xl:px-12">
         <div class="flex items-center gap-2">
             @auth
                 <div class="relative" x-data="{ open: false }" @click.outside="open = false">
@@ -36,12 +35,12 @@
                         @endforeach
                     </div>
                 </div>
+            @else
+                <a href="{{ route('home') }}" class="flex items-center gap-2 text-lg font-bold tracking-tight">
+                    <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-accent text-xs">SK</span>
+                    <span>SISU<span class="text-primary-light">KAT</span></span>
+                </a>
             @endauth
-
-            <a href="{{ route('home') }}" class="flex items-center gap-2 text-lg font-bold tracking-tight">
-                <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-accent text-xs">SK</span>
-                <span>SISU<span class="text-primary-light">KAT</span></span>
-            </a>
         </div>
 
         @auth

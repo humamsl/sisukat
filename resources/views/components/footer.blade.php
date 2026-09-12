@@ -2,8 +2,7 @@
     $footerLinks = [
         ['label' => 'Home', 'route' => 'home'],
         ['label' => 'Pendahuluan', 'route' => 'pages.pendahuluan'],
-        ['label' => 'Petunjuk Penggunaan', 'route' => 'pages.petunjuk'],
-        ['label' => 'Buku Saku', 'route' => 'books.index'],
+        ['label' => 'Buku Panduan', 'route' => 'books.index'],
         ['label' => 'Tutorial', 'route' => 'tutorials.index'],
         ['label' => 'Instrumen', 'route' => 'instruments.index'],
         ['label' => 'Upload', 'route' => 'upload.create'],

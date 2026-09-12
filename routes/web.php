@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 |
 | SISUKAT adalah portal untuk staf & pengguna terdaftar: hanya Home,
 | Login, dan Daftar yang bisa diakses tanpa login. Seluruh halaman
-| konten (Pendahuluan, Buku Saku, Tutorial, Instrumen, Upload,
+| konten (Pendahuluan, Buku Panduan, Tutorial, Instrumen, Upload,
 | Pencarian) mewajibkan autentikasi — lihat grup 'auth' di bawah.
 |
 */

@@ -4,7 +4,7 @@
 
 @section('content')
 <section class="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
-    <x-breadcrumb :items="['Home' => route('home'), 'Buku Saku' => route('books.index'), $book->title => null]" />
+    <x-breadcrumb :items="['Home' => route('home'), 'Buku Panduan' => route('books.index'), $book->title => null]" />
 
     <div class="grid gap-8 lg:grid-cols-[280px_1fr]">
         <div>

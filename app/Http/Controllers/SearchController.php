@@ -22,7 +22,7 @@ class SearchController extends Controller
             $results = $results
                 ->concat(
                     Book::query()->published()->search($term)->get()->map(fn (Book $book) => [
-                        'type' => 'Buku Saku',
+                        'type' => 'Buku Panduan',
                         'icon' => 'book-open',
                         'title' => $book->title,
                         'description' => $book->description,
