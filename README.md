@@ -20,7 +20,7 @@ Dibangun dengan Laravel 12, Tailwind CSS v4, dan Alpine.js.
 8. [Authorization](#8-authorization)
 9. [File Upload](#9-file-upload)
 10. [Admin Dashboard](#10-admin-dashboard)
-11. [Deployment (Ubuntu + Nginx)](#11-deployment-ubuntu--nginx)
+11. [Deployment (Virtualmin + Nginx)](#11-deployment-virtualmin--nginx)
 12. [Backup](#12-backup)
 13. [Maintenance](#13-maintenance)
 14. [Troubleshooting](#14-troubleshooting)
@@ -180,45 +180,64 @@ Editor konten (Pendahuluan/Petunjuk Penggunaan/Tentang SISUKAT, serta artikel Tu
 
 ---
 
-## 11. Deployment (Ubuntu + Nginx)
+## 11. Deployment (Virtualmin + Nginx)
 
-### 11.1 Persiapan Server
+Server produksi (**sisukat.my.id**) dikelola lewat **Virtualmin** (bukan setup Ubuntu polos) — domain, virtual host Nginx, sertifikat SSL, dan pool PHP-FPM sudah dibuat & dikelola Virtualmin per-domain. Struktur path mengikuti konvensi Virtualmin: home domain di `/home/sisukat/`, kode aplikasi di `/home/sisukat/SISUKAT/`, user sistem `sisukat`.
+
+**Penting:** file konfigurasi yang di-generate Virtualmin (Nginx vhost, pool PHP-FPM) bisa ditimpa ulang saat Anda mengubah pengaturan domain lewat UI Virtualmin (ganti versi PHP, re-check configuration, dsb). Cara paling aman menambahkan directive custom adalah lewat **Server Configuration → Website Options → Edit Directives**, bukan edit file langsung — lihat komentar di kedua file config untuk detailnya.
+
+### 11.1 Konfigurasi Nginx
+
+Config lengkap (versi asli dari Virtualmin + tambahan yang Laravel butuhkan) ada di [`deploy/nginx/sisukat.my.id.conf`](deploy/nginx/sisukat.my.id.conf), sudah tervalidasi dengan `nginx -t`. Bagian yang **wajib ada** dan sebelumnya hilang dari config asli: blok `location / { try_files $uri $uri/ /index.php?$query_string; }` — tanpa ini, hampir semua route Laravel (selain `/`) akan 404 langsung dari Nginx karena file-nya memang tidak ada di disk. Tambahan lain: `client_max_body_size 25M` (default Nginx cuma 1M), security headers, gzip, dan cache untuk aset `/build/`.
+
+Terapkan lewat **Edit Directives** di UI Virtualmin (disarankan), atau langsung timpa file yang di-generate Virtualmin lalu:
 
 ```bash
-sudo apt update && sudo apt install -y nginx mysql-server php8.3-fpm \
-  php8.3-cli php8.3-mysql php8.3-mbstring php8.3-xml php8.3-curl \
-  php8.3-gd php8.3-zip php8.3-bcmath unzip git
-
-curl -sS https://getcomposer.org/installer | php
-sudo mv composer.phar /usr/local/bin/composer
-
-curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-sudo apt install -y nodejs
+nginx -t && sudo systemctl reload nginx
 ```
 
-### 11.2 Deploy Aplikasi
+### 11.2 Konfigurasi PHP-FPM
+
+Pool PHP-FPM ada di [`deploy/php-fpm/178913237175198.conf`](deploy/php-fpm/178913237175198.conf) — Virtualmin menamai file pool ini dengan ID numerik domain, bukan nama domain, jadi cek nama file yang sebenarnya di server dengan `ls /etc/php/8.3/fpm/pool.d/` kalau ID-nya berbeda. Socket-nya (`/run/php/178913237175198.sock`) harus sama persis dengan yang dirujuk `fastcgi_pass` di file Nginx. Poin yang paling penting untuk aplikasi ini:
+
+- `upload_max_filesize` / `post_max_size` — harus ≥ batas upload terbesar di `config/sisukat.php` (saat ini 20MB untuk buku/tutorial) **dan** sinkron dengan `client_max_body_size` di Nginx. Kalau salah satu lebih kecil dari yang lain, upload akan gagal tanpa pesan error yang jelas.
+- `max_execution_time` — disamakan dengan `fastcgi_read_timeout` di Nginx (300 detik), supaya unduhan file besar (di-stream lewat `Storage::download()`, bukan `X-Accel-Redirect`) tidak terputus di tengah jalan.
+- `open_basedir` — sengaja dikomentari di file contoh karena salah isi = error 500 di seluruh aplikasi. Uji dulu di staging kalau ingin mengaktifkan.
+
+Terapkan lewat **Server Configuration → PHP Options** di Virtualmin (untuk nilai umum seperti upload size/execution time), atau edit pool file langsung untuk nilai yang tidak tersedia di UI, lalu:
 
 ```bash
-sudo mkdir -p /var/www/sisukat
-sudo chown $USER:$USER /var/www/sisukat
-git clone <repository-url> /var/www/sisukat
-cd /var/www/sisukat
+sudo systemctl reload php8.3-fpm
+```
+
+### 11.3 Deploy Aplikasi
+
+```bash
+cd /home/sisukat/SISUKAT
 
 composer install --optimize-autoloader --no-dev
 npm install && npm run build
 
 cp .env.example .env
 php artisan key:generate
-# edit .env: APP_ENV=production, APP_DEBUG=false, APP_URL, DB_*, MAIL_*
+# edit .env: APP_ENV=production, APP_DEBUG=false, APP_URL=https://sisukat.my.id, DB_*, MAIL_*
+```
 
+Database MySQL untuk domain ini biasanya sudah otomatis dibuat Virtualmin (fitur "MySQL Database" per-domain, dengan user & password sendiri) — cek di **Edit Databases** pada UI Virtualmin dan pakai kredensial itu di `.env`, daripada membuat database baru manual. Kalau belum ada:
+
+```bash
 mysql -u root -p -e "CREATE DATABASE sisukat CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+```
+
+```bash
 php artisan migrate --seed --force
 php artisan storage:link
 
-sudo chown -R www-data:www-data /var/www/sisukat
-sudo find /var/www/sisukat -type d -exec chmod 755 {} \;
-sudo find /var/www/sisukat -type f -exec chmod 644 {} \;
-sudo chmod -R 775 /var/www/sisukat/storage /var/www/sisukat/bootstrap/cache
+# Kepemilikan file harus tetap milik user domain (bukan www-data)
+chown -R sisukat:sisukat /home/sisukat/SISUKAT
+find /home/sisukat/SISUKAT -type d -exec chmod 755 {} \;
+find /home/sisukat/SISUKAT -type f -exec chmod 644 {} \;
+chmod -R 775 /home/sisukat/SISUKAT/storage /home/sisukat/SISUKAT/bootstrap/cache
 
 php artisan config:cache
 php artisan route:cache
@@ -226,60 +245,9 @@ php artisan view:cache
 php artisan event:cache
 ```
 
-### 11.3 Konfigurasi Nginx
+### 11.4 SSL
 
-`/etc/nginx/sites-available/sisukat`:
-
-```nginx
-server {
-    listen 80;
-    server_name sisukat.example.com;
-    root /var/www/sisukat/public;
-
-    add_header X-Frame-Options "SAMEORIGIN" always;
-    add_header X-Content-Type-Options "nosniff" always;
-
-    index index.php;
-    charset utf-8;
-
-    client_max_body_size 25M;  # >= UPLOAD_DOCUMENT_MAX_KB / BOOK_FILE_MAX_KB terbesar di .env
-
-    location / {
-        try_files $uri $uri/ /index.php?$query_string;
-    }
-
-    location = /favicon.ico { access_log off; log_not_found off; }
-    location = /robots.txt  { access_log off; log_not_found off; }
-
-    # Cegah akses langsung ke file sensitif
-    location ~ /\.(?!well-known).* { deny all; }
-    location ~* \.(env|log|sql)$ { deny all; }
-    location ~ ^/storage/app/private/ { deny all; }
-
-    error_page 404 /index.php;
-
-    location ~ \.php$ {
-        fastcgi_pass unix:/run/php/php8.3-fpm.sock;
-        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
-        include fastcgi_params;
-        fastcgi_hide_header X-Powered-By;
-    }
-
-    location ~ /\.ht { deny all; }
-}
-```
-
-```bash
-sudo ln -s /etc/nginx/sites-available/sisukat /etc/nginx/sites-enabled/
-sudo nginx -t && sudo systemctl reload nginx
-```
-
-### 11.4 SSL (Let's Encrypt)
-
-```bash
-sudo apt install -y certbot python3-certbot-nginx
-sudo certbot --nginx -d sisukat.example.com
-```
+Virtualmin sudah menyediakan sertifikat lewat **Server Configuration → SSL Certificate → Let's Encrypt** (tercermin dari path `/etc/ssl/virtualmin/.../ssl.combined` di config Nginx) — perpanjangan otomatis ditangani Virtualmin sendiri, tidak perlu setup Certbot manual/terpisah. Cek status & jadwal perpanjangan di menu yang sama pada UI.
 
 ### 11.5 Queue Worker (notifikasi upload dokumen)
 
@@ -291,8 +259,8 @@ Description=SISUKAT Queue Worker
 After=network.target mysql.service
 
 [Service]
-User=www-data
-WorkingDirectory=/var/www/sisukat
+User=sisukat
+WorkingDirectory=/home/sisukat/SISUKAT
 ExecStart=/usr/bin/php artisan queue:work --sleep=3 --tries=3 --max-time=3600
 Restart=always
 
@@ -306,13 +274,17 @@ sudo systemctl enable --now sisukat-queue
 
 ### 11.6 Cron (scheduler)
 
+Virtualmin punya UI sendiri untuk cron per-domain (**Scheduled Cron Jobs**) — lebih disarankan daripada edit crontab manual supaya tetap tercatat di Virtualmin:
+
 ```
-* * * * * cd /var/www/sisukat && php artisan schedule:run >> /dev/null 2>&1
+* * * * * cd /home/sisukat/SISUKAT && php artisan schedule:run >> /dev/null 2>&1
 ```
 
 ---
 
 ## 12. Backup
+
+Karena server dikelola Virtualmin, cara paling praktis adalah fitur bawaannya: **Backup and Restore → Backup Virtual Server** (bisa dijadwalkan, mencakup database, file domain, dan konfigurasi Virtualmin sekaligus, bisa dikirim ke lokasi terpisah seperti S3/FTP). Gunakan perintah manual di bawah ini hanya kalau butuh backup cepat di luar jadwal Virtualmin, atau untuk verifikasi isi backup.
 
 **Database:**
 
@@ -323,16 +295,16 @@ mysqldump -u root -p sisukat | gzip > sisukat-$(date +%Y%m%d).sql.gz
 **File upload/storage** (buku, instrumen, dokumen masuk — semua ada di `storage/app/private` dan `storage/app/public`):
 
 ```bash
-tar -czf sisukat-storage-$(date +%Y%m%d).tar.gz storage/app
+tar -czf sisukat-storage-$(date +%Y%m%d).tar.gz -C /home/sisukat/SISUKAT storage/app
 ```
 
-Jadwalkan keduanya lewat cron harian, simpan di lokasi terpisah dari server produksi (mis. object storage terenkripsi). Uji proses restore secara berkala — backup yang belum pernah diuji restore-nya bukan backup yang bisa diandalkan.
+Kalau backup manual di luar Virtualmin, jadwalkan lewat cron harian dan simpan di lokasi terpisah dari server produksi (mis. object storage terenkripsi). Uji proses restore secara berkala — backup yang belum pernah diuji restore-nya bukan backup yang bisa diandalkan.
 
 **Restore:**
 
 ```bash
 gunzip < sisukat-YYYYMMDD.sql.gz | mysql -u root -p sisukat
-tar -xzf sisukat-storage-YYYYMMDD.tar.gz -C /var/www/sisukat/
+tar -xzf sisukat-storage-YYYYMMDD.tar.gz -C /home/sisukat/SISUKAT/
 ```
 
 ---
@@ -363,7 +335,8 @@ Pantau `storage/logs/laravel.log` (rotasi otomatis via driver `daily` — ubah `
 | Notifikasi email upload tidak terkirim | Queue worker tidak jalan (`sudo systemctl status sisukat-queue`) atau `MAIL_*` di `.env` belum dikonfigurasi. Cek `php artisan queue:failed`. |
 | Login admin gagal terus / "Terlalu banyak percobaan" | Rate limiter aktif (5x/menit per email+IP) — tunggu, atau `php artisan cache:clear` di lingkungan development. |
 | File PDF tidak tampil di pembaca Buku Panduan | Periksa Network tab browser untuk request ke `/buku-saku/{slug}/file` — pastikan file benar-benar ada di `storage/app/private/books/` dan `php artisan storage:link` sudah dijalankan (untuk aset publik lain). |
-| Permission denied saat Laravel menulis log/cache | `storage/` dan `bootstrap/cache/` harus writable oleh user web server: `sudo chmod -R 775 storage bootstrap/cache && sudo chown -R www-data:www-data storage bootstrap/cache`. |
+| Permission denied saat Laravel menulis log/cache | `storage/` dan `bootstrap/cache/` harus writable oleh user PHP-FPM pool (`sisukat`, bukan `www-data`): `chmod -R 775 storage bootstrap/cache && chown -R sisukat:sisukat storage bootstrap/cache`. |
+| Semua halaman selain Home tiba-tiba 404 setelah ubah pengaturan domain di Virtualmin | Virtualmin menimpa ulang vhost Nginx dan menghapus blok `location / { try_files ...; }` custom yang ditambahkan manual. Terapkan ulang dari `deploy/nginx/sisukat.my.id.conf`, atau — supaya tidak terulang — pindahkan directive itu ke **Edit Directives** di UI Virtualmin. |
 
 ---
 

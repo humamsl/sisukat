@@ -8,7 +8,7 @@
 <section class="relative overflow-hidden bg-secondary bg-cover bg-center text-white"
          @if ($heroBg) style="background-image: url('{{ asset('storage/'.$heroBg) }}')" @endif>
     @if ($heroBg)
-        <div class="absolute inset-0 bg-secondary/85"></div>
+        <div class="absolute inset-0 bg-secondary/75"></div>
     @endif
     <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:py-24 lg:px-8">
         <div data-aos class="max-w-2xl">
@@ -84,7 +84,7 @@
 {{-- Kenali SISUKAT --}}
 @php($logo = \App\Models\Setting::get('logo'))
 <section class="bg-white py-20 sm:py-28">
-    <div class="mx-auto mb-14 max-w-2xl px-4 text-center sm:px-6">
+    <div class="mx-auto mb-14 max-w-4xl px-4 text-center sm:px-6">
         @if ($logo)
             <img src="{{ asset('storage/'.$logo) }}" alt="Logo Sekolah" style="width:200px;height:200px;object-fit:contain;margin:0 auto 12px;display:block;">
         @else
@@ -94,7 +94,7 @@
         <h2 class="mt-6 text-2xl font-bold text-secondary sm:text-3xl">Kenali SISUKAT</h2>
 
         @if ($settingDescription = \App\Models\Setting::get('site_description'))
-            <p class="mt-3 text-ink/80" style="margin: 10px;padding: 10px;border: 1px; font-size: 16px;">{{ $settingDescription }}</p>
+            <p class="mx-auto mt-3 max-w-4xl text-ink/80" style="margin-top: 10px;padding: 10px;border: 1px; font-size: 16px;">{{ $settingDescription }}</p>
         @endif
     </div>
 
