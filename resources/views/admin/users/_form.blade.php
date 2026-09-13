@@ -12,6 +12,13 @@
     </div>
 
     <div>
+        <label for="school" class="mb-1 block text-sm font-medium text-secondary">Nama Sekolah</label>
+        <input id="school" name="school" type="text" value="{{ old('school', $user->school ?? '') }}"
+               class="w-full rounded-lg border border-ink/15 px-3 py-2 text-sm">
+        @error('school') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
+    </div>
+
+    <div>
         <label for="email" class="mb-1 block text-sm font-medium text-secondary">Email</label>
         <input id="email" name="email" type="email" value="{{ old('email', $user->email ?? '') }}" required
                class="w-full rounded-lg border border-ink/15 px-3 py-2 text-sm">

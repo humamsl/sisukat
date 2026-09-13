@@ -14,7 +14,7 @@
         <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
             <div class="lg:col-span-2">
                 <div class="flex items-center gap-2 text-lg font-bold text-white">
-                    <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-accent text-xs">SK</span>
+                    <img src="{{ asset('img/logo-sisukat.png') }}" alt="Logo SISUKAT" class="h-8 w-8 object-contain">
                     <span>SISU<span class="text-primary-light">KAT</span></span>
                 </div>
                 <p class="mt-3 max-w-sm text-sm">Sistem Informasi Supervisi Akademik Terpadu — platform digital untuk mendukung pelaksanaan supervisi akademik secara efektif dan terstruktur.</p>

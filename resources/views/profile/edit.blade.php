@@ -13,6 +13,10 @@
                 <dd class="font-medium text-secondary">{{ $user->name }}</dd>
             </div>
             <div class="flex justify-between">
+                <dt class="text-ink/50">Sekolah</dt>
+                <dd class="font-medium text-secondary">{{ $user->school ?? '-' }}</dd>
+            </div>
+            <div class="flex justify-between">
                 <dt class="text-ink/50">Email</dt>
                 <dd class="font-medium text-secondary">{{ $user->email }}</dd>
             </div>

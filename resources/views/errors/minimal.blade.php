@@ -11,7 +11,7 @@
 <body class="min-h-screen bg-secondary text-white antialiased">
     <div class="flex min-h-screen flex-col items-center justify-center px-4 text-center">
         <a href="/" class="mb-8 inline-flex items-center gap-2 text-xl font-bold tracking-tight">
-            <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-accent text-sm">SK</span>
+            <img src="{{ asset('img/logo-sisukat.png') }}" alt="Logo SISUKAT" class="h-9 w-9 object-contain">
             <span>SISU<span class="text-primary-light">KAT</span></span>
         </a>
 

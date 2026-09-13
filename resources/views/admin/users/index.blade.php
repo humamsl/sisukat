@@ -11,7 +11,7 @@
 </div>
 
 <form method="GET" class="mb-5 flex flex-wrap gap-3">
-    <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama atau email..."
+    <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama, email, atau sekolah..."
            class="min-w-[220px] flex-1 rounded-lg border border-ink/15 px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
     <select name="role" class="rounded-lg border border-ink/15 px-3 py-2 text-sm">
         <option value="">Semua Role</option>
@@ -31,6 +31,7 @@
             <thead class="border-b border-ink/5 text-xs uppercase text-ink/40">
                 <tr>
                     <th class="px-4 py-3">Nama</th>
+                    <th class="px-4 py-3">Sekolah</th>
                     <th class="px-4 py-3">Email</th>
                     <th class="px-4 py-3">Role</th>
                     <th class="px-4 py-3">Status</th>
@@ -42,6 +43,7 @@
                 @foreach ($users as $user)
                     <tr>
                         <td class="px-4 py-3 font-medium text-secondary">{{ $user->name }}</td>
+                        <td class="px-4 py-3 text-ink/60">{{ $user->school ?? '-' }}</td>
                         <td class="px-4 py-3 text-ink/60">{{ $user->email }}</td>
                         <td class="px-4 py-3">
                             <span class="rounded-full px-2.5 py-1 text-xs font-medium uppercase {{ $user->isStaff() ? 'bg-primary/10 text-primary' : 'bg-ink/5 text-ink/50' }}">{{ $user->role }}</span>

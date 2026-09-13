@@ -23,7 +23,8 @@ class UserController extends Controller
                 $term = '%'.mb_strtolower(request('search')).'%';
                 $q->where(fn ($q2) => $q2
                     ->whereRaw('LOWER(name) LIKE ?', [$term])
-                    ->orWhereRaw('LOWER(email) LIKE ?', [$term]));
+                    ->orWhereRaw('LOWER(email) LIKE ?', [$term])
+                    ->orWhereRaw('LOWER(school) LIKE ?', [$term]));
             })
             ->latest('id')
             ->paginate(15)

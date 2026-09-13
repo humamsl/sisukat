@@ -37,7 +37,7 @@
                 </div>
             @else
                 <a href="{{ route('home') }}" class="flex items-center gap-2 text-lg font-bold tracking-tight">
-                    <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-accent text-xs">SK</span>
+                    <img src="{{ asset('img/logo-sisukat.png') }}" alt="Logo SISUKAT" class="h-8 w-8 object-contain">
                     <span>SISU<span class="text-primary-light">KAT</span></span>
                 </a>
             @endauth
@@ -77,10 +77,10 @@
             </div>
         @else
             <div class="flex items-center gap-2">
-                <a href="{{ route('register') }}"
+                <!--<a href="{{ route('register') }}"
                    class="hidden rounded-full border border-white/20 px-4 py-1.5 text-sm font-medium transition hover:border-white/40 hover:bg-white/5 sm:inline-block">
                     Daftar
-                </a>
+                </a>-->
                 <a href="{{ route('login') }}"
                    class="rounded-full bg-gradient-to-r from-primary to-accent px-5 py-1.5 text-sm font-semibold transition hover:opacity-90">
                     Login

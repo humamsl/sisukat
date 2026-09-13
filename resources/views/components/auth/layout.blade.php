@@ -13,7 +13,7 @@
         <div class="w-full max-w-sm">
             <div class="mb-8 text-center">
                 <a href="{{ route('home') }}" class="inline-flex items-center gap-2 text-2xl font-bold tracking-tight">
-                    <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-accent text-sm text-white">SK</span>
+                    <img src="{{ asset('img/logo-sisukat.png') }}" alt="Logo SISUKAT" class="h-9 w-9 object-contain">
                     <span>SISU<span class="text-primary-light">KAT</span></span>
                 </a>
                 <p class="mt-2 text-sm text-white/60">Sistem Informasi Supervisi Akademik Terpadu</p>

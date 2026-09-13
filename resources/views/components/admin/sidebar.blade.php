@@ -62,7 +62,7 @@
        :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
        class="fixed inset-y-0 left-0 z-50 w-64 overflow-y-auto bg-secondary text-white transition-transform lg:translate-x-0">
     <div class="flex h-16 items-center gap-2 px-5">
-        <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-accent text-xs">SK</span>
+        <img src="{{ asset('img/logo-sisukat.png') }}" alt="Logo SISUKAT" class="h-8 w-8 object-contain">
         <span class="text-lg font-bold">SISU<span class="text-primary-light">KAT</span></span>
     </div>
 

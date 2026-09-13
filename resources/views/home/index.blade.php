@@ -8,7 +8,7 @@
 <section class="relative overflow-hidden bg-secondary bg-cover bg-center text-white"
          @if ($heroBg) style="background-image: url('{{ asset('storage/'.$heroBg) }}')" @endif>
     @if ($heroBg)
-        <div class="absolute inset-0 bg-secondary/75"></div>
+        <div class="absolute inset-0 bg-secondary/80"></div>
     @endif
     <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:py-24 lg:px-8">
         <div data-aos class="max-w-2xl">
