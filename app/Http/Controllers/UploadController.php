@@ -47,10 +47,12 @@ class UploadController extends Controller
 
         $message = 'Dokumen berhasil dikirim.';
 
+        session()->flash('status', $message);
+
         if ($request->wantsJson()) {
             return response()->json(['message' => $message, 'redirect' => route('upload.create')]);
         }
 
-        return redirect()->route('upload.create')->with('status', $message);
+        return redirect()->route('upload.create');
     }
 }
