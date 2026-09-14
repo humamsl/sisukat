@@ -5,10 +5,26 @@
 @section('content')
 <div class="mb-5 flex flex-wrap items-center justify-between gap-3">
     <h2 class="text-lg font-semibold text-secondary">Manajemen User</h2>
-    <a href="{{ route('admin.users.create') }}" class="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white hover:opacity-90">
-        <x-lucide-plus class="h-4 w-4" /> Tambah Akun
-    </a>
+    <div class="flex items-center gap-3">
+        <a href="{{ route('admin.users.import') }}" class="inline-flex items-center gap-2 rounded-lg bg-secondary px-4 py-2 text-sm font-semibold text-white hover:opacity-90">
+            <x-lucide-upload class="h-4 w-4" /> Import User
+        </a>
+        <a href="{{ route('admin.users.create') }}" class="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white hover:opacity-90">
+            <x-lucide-plus class="h-4 w-4" /> Tambah Akun
+        </a>
+    </div>
 </div>
+
+@if (session('importErrors'))
+    <div class="mb-5 rounded-lg bg-amber-50 px-4 py-3 text-sm text-amber-800">
+        <p class="font-medium">Rincian baris yang gagal diimpor:</p>
+        <ul class="mt-1 list-inside list-disc">
+            @foreach (session('importErrors') as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 
 <form method="GET" class="mb-5 flex flex-wrap gap-3">
     <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama, email, atau sekolah..."

@@ -39,6 +39,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('uploads/{upload}/download', [UploadController::class, 'download'])->name('uploads.download');
     Route::delete('uploads/{upload}', [UploadController::class, 'destroy'])->name('uploads.destroy');
 
+    Route::get('users/import', [UserController::class, 'import'])->name('users.import');
+    Route::post('users/import', [UserController::class, 'storeImport'])->name('users.import.store');
+    Route::get('users/import/template', [UserController::class, 'importTemplate'])->name('users.import.template');
     Route::resource('users', UserController::class)->except(['show']);
 
     Route::get('settings', [SettingController::class, 'edit'])->name('settings.edit');
