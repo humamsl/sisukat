@@ -20,8 +20,8 @@
         @forelse ($recentUploads as $upload)
             <div class="flex items-center justify-between border-b border-ink/5 py-3 last:border-0">
                 <div class="min-w-0">
-                    <p class="truncate text-sm font-medium text-secondary">{{ $upload->name }}</p>
-                    <p class="text-xs text-ink/50">{{ $upload->document_type }} &middot; {{ $upload->school }}</p>
+                    <p class="truncate text-sm font-medium text-secondary">{{ $upload->user?->name ?? '-' }}</p>
+                    <p class="text-xs text-ink/50">{{ $upload->original_filename }} &middot; {{ $upload->user?->school ?? '-' }}</p>
                 </div>
                 <span class="ml-3 shrink-0 rounded-full px-2.5 py-1 text-xs font-medium
                     {{ $upload->status === 'pending' ? 'bg-amber-50 text-amber-700' : ($upload->status === 'reviewed' ? 'bg-emerald-50 text-emerald-700' : 'bg-ink/5 text-ink/50') }}">

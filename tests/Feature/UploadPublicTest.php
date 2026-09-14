@@ -16,15 +16,7 @@ beforeEach(function () {
 function validUploadPayload(array $overrides = []): array
 {
     return array_merge([
-        'name' => 'Budi Santoso',
-        'email' => 'budi@example.com',
-        'identity_number' => '198001012020121001',
-        'position' => 'Guru',
-        'school' => 'SDN Contoh 1',
-        'document_type' => 'Laporan Hasil Supervisi',
-        'description' => 'Laporan bulan ini',
         'file' => UploadedFile::fake()->create('laporan.pdf', 300, 'application/pdf'),
-        'agreement' => '1',
     ], $overrides);
 }
 
@@ -38,18 +30,12 @@ test('a logged in user can submit a document upload', function () {
     $response->assertRedirect(route('upload.create'));
     $response->assertSessionHas('status');
 
-    $upload = Upload::firstWhere('email', 'budi@example.com');
+    $upload = Upload::firstWhere('user_id', $this->submitter->id);
     expect($upload)->not->toBeNull();
     expect($upload->original_filename)->toBe('laporan.pdf');
     expect($upload->file)->not->toBe('laporan.pdf');
     expect($upload->status)->toBe('pending');
     Storage::disk('local')->assertExists($upload->file);
-});
-
-test('upload requires the agreement checkbox to be accepted', function () {
-    $response = $this->actingAs($this->submitter)->post(route('upload.store'), validUploadPayload(['agreement' => null]));
-
-    $response->assertSessionHasErrors('agreement');
 });
 
 test('upload rejects disallowed file types such as php', function () {

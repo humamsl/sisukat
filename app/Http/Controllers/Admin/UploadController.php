@@ -22,12 +22,12 @@ class UploadController extends Controller
         $this->authorize('viewAny', Upload::class);
 
         $uploads = Upload::query()
+            ->with('user')
             ->when(request('search'), function ($q) {
                 $term = '%'.mb_strtolower(request('search')).'%';
-                $q->where(fn ($q2) => $q2
+                $q->whereHas('user', fn ($uq) => $uq
                     ->whereRaw('LOWER(name) LIKE ?', [$term])
-                    ->orWhereRaw('LOWER(school) LIKE ?', [$term])
-                    ->orWhereRaw('LOWER(document_type) LIKE ?', [$term]));
+                    ->orWhereRaw('LOWER(school) LIKE ?', [$term]));
             })
             ->when(request('status'), fn ($q) => $q->where('status', request('status')))
             ->latest('uploaded_at')
@@ -41,7 +41,7 @@ class UploadController extends Controller
     {
         $this->authorize('viewAny', Upload::class);
 
-        return view('admin.uploads.show', ['upload' => $upload]);
+        return view('admin.uploads.show', ['upload' => $upload->load('user')]);
     }
 
     public function updateStatus(Request $request, Upload $upload): RedirectResponse

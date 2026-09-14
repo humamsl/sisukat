@@ -91,7 +91,7 @@
             <span class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent text-lg font-bold text-white">SK</span>
         @endif
 
-        <h2 class="mt-6 text-2xl font-bold text-secondary sm:text-3xl">Kenali SISUKAT</h2>
+        <h2 class="mt-6 text-2xl font-bold text-secondary sm:text-3xl"></h2>
 
         @if ($settingDescription = \App\Models\Setting::get('site_description'))
             <p class="mx-auto mt-3 max-w-4xl text-ink/80" style="margin-top: 10px;padding: 10px;border: 1px; font-size: 16px;">{{ $settingDescription }}</p>

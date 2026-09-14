@@ -25,9 +25,9 @@ class UploadController extends Controller
     public function store(UploadDocumentRequest $request): RedirectResponse|JsonResponse
     {
         $data = $request->validated();
-        unset($data['agreement']);
 
         $file = $request->file('file');
+        $data['user_id'] = $request->user()->id;
         $data['file'] = $this->files->store($file, 'uploads');
         $data['original_filename'] = $file->getClientOriginalName();
         $data['file_size'] = $file->getSize();
@@ -38,7 +38,7 @@ class UploadController extends Controller
 
         $upload = Upload::create($data);
 
-        ActivityLogger::log('upload', "Dokumen baru dikirim oleh {$upload->name}", $upload);
+        ActivityLogger::log('upload', "Dokumen baru dikirim oleh {$request->user()->name}", $upload);
 
         Notification::send(
             User::query()->where('is_active', true)->whereIn('role', [User::ROLE_SUPER_ADMIN, User::ROLE_ADMIN])->get(),

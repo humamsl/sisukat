@@ -25,8 +25,8 @@ class NewUploadSubmitted extends Notification implements ShouldQueue
             ->subject('Dokumen Baru Masuk - SISUKAT')
             ->greeting("Halo {$notifiable->name},")
             ->line('Ada dokumen baru yang dikirim melalui halaman Upload Dokumen SISUKAT.')
-            ->line("Pengirim: {$this->upload->name} ({$this->upload->school})")
-            ->line("Jenis Dokumen: {$this->upload->document_type}")
+            ->line("Pengirim: {$this->upload->user?->name} ({$this->upload->user?->school})")
+            ->line("File: {$this->upload->original_filename}")
             ->action('Lihat Dokumen Masuk', route('admin.uploads.show', $this->upload))
             ->line('Terima kasih.');
     }

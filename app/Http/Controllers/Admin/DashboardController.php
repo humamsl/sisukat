@@ -21,7 +21,7 @@ class DashboardController extends Controller
                 'instruments' => Instrument::query()->count(),
                 'uploads' => Upload::query()->count(),
             ],
-            'recentUploads' => Upload::query()->latest('uploaded_at')->take(5)->get(),
+            'recentUploads' => Upload::query()->with('user')->latest('uploaded_at')->take(5)->get(),
             'recentActivity' => ActivityLog::query()->with('user')->latest('id')->take(8)->get(),
         ]);
     }

@@ -14,8 +14,8 @@ function makeUpload(array $overrides = []): Upload
     Storage::disk('local')->put('uploads/doc.pdf', 'dummy content');
 
     return Upload::create(array_merge([
-        'name' => 'Pengirim', 'email' => 'p@example.com', 'position' => 'Guru', 'school' => 'SDN 1',
-        'document_type' => 'Laporan', 'file' => 'uploads/doc.pdf', 'original_filename' => 'doc.pdf',
+        'user_id' => User::factory()->create(['school' => 'SDN 1'])->id,
+        'file' => 'uploads/doc.pdf', 'original_filename' => 'doc.pdf',
         'file_size' => 13, 'mime_type' => 'application/pdf', 'status' => 'pending',
         'ip_address' => '127.0.0.1', 'uploaded_at' => now(),
     ], $overrides));

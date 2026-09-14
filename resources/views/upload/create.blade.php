@@ -57,50 +57,8 @@
 
         <form method="POST" action="{{ route('upload.store') }}" enctype="multipart/form-data" @submit.prevent="submit">
             @csrf
-            <div class="grid gap-5 sm:grid-cols-2">
-                <div class="sm:col-span-2">
-                    <label for="name" class="mb-1 block text-sm font-medium text-secondary">Nama Lengkap</label>
-                    <input id="name" name="name" type="text" required class="w-full rounded-lg border border-ink/15 px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
-                </div>
-
+            <div class="grid gap-5">
                 <div>
-                    <label for="email" class="mb-1 block text-sm font-medium text-secondary">Email</label>
-                    <input id="email" name="email" type="email" required class="w-full rounded-lg border border-ink/15 px-3 py-2 text-sm">
-                </div>
-
-                <div>
-                    <label for="identity_number" class="mb-1 block text-sm font-medium text-secondary">NIP <span class="text-ink/40">(opsional)</span></label>
-                    <input id="identity_number" name="identity_number" type="text" class="w-full rounded-lg border border-ink/15 px-3 py-2 text-sm">
-                </div>
-
-                <div>
-                    <label for="position" class="mb-1 block text-sm font-medium text-secondary">Jabatan</label>
-                    <input id="position" name="position" type="text" required placeholder="cth. Guru, Kepala Sekolah, Pengawas" class="w-full rounded-lg border border-ink/15 px-3 py-2 text-sm">
-                </div>
-
-                <div>
-                    <label for="school" class="mb-1 block text-sm font-medium text-secondary">Nama Sekolah</label>
-                    <input id="school" name="school" type="text" required class="w-full rounded-lg border border-ink/15 px-3 py-2 text-sm">
-                </div>
-
-                <div class="sm:col-span-2">
-                    <label for="document_type" class="mb-1 block text-sm font-medium text-secondary">Jenis Dokumen</label>
-                    <select id="document_type" name="document_type" required class="w-full rounded-lg border border-ink/15 px-3 py-2 text-sm">
-                        <option value="">Pilih jenis dokumen</option>
-                        <option>Rencana Pelaksanaan Pembelajaran (RPP)</option>
-                        <option>Laporan Hasil Supervisi</option>
-                        <option>Instrumen Terisi</option>
-                        <option>Dokumen Tindak Lanjut</option>
-                        <option>Lainnya</option>
-                    </select>
-                </div>
-
-                <div class="sm:col-span-2">
-                    <label for="description" class="mb-1 block text-sm font-medium text-secondary">Keterangan <span class="text-ink/40">(opsional)</span></label>
-                    <textarea id="description" name="description" rows="3" class="w-full rounded-lg border border-ink/15 px-3 py-2 text-sm"></textarea>
-                </div>
-
-                <div class="sm:col-span-2">
                     <label for="file" class="mb-1 block text-sm font-medium text-secondary">File Dokumen</label>
                     <input id="file" name="file" type="file" required @change="onFileChange"
                            accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png"
@@ -109,13 +67,6 @@
                         Format: PDF, DOC, DOCX, XLS, XLSX, JPG, PNG. Maksimal <span x-text="(maxKb / 1024).toFixed(1)"></span> MB.
                         <span x-show="fileInfo" x-text="'Dipilih: ' + fileInfo" class="ml-1 text-ink/60"></span>
                     </p>
-                </div>
-
-                <div class="sm:col-span-2">
-                    <label class="flex items-start gap-2 text-sm text-ink/70">
-                        <input type="checkbox" name="agreement" required class="mt-0.5 rounded border-ink/30 text-primary focus:ring-primary/30">
-                        Saya menyatakan bahwa dokumen yang dikirimkan adalah benar dan dapat dipertanggungjawabkan.
-                    </label>
                 </div>
             </div>
 

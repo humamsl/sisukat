@@ -13,6 +13,7 @@ test('register page is accessible to guests', function () {
 test('a visitor can register and is logged in and redirected home', function () {
     $response = $this->post(route('register.store'), [
         'name' => 'Pengguna Baru',
+        'school' => 'SDN Contoh 1',
         'email' => 'baru@example.com',
         'password' => 'password123',
         'password_confirmation' => 'password123',
@@ -24,6 +25,7 @@ test('a visitor can register and is logged in and redirected home', function () 
     $user = User::firstWhere('email', 'baru@example.com');
     expect($user->role)->toBe(User::ROLE_USER);
     expect($user->is_active)->toBeTrue();
+    expect($user->school)->toBe('SDN Contoh 1');
 });
 
 test('registration requires matching password confirmation', function () {

@@ -6,7 +6,7 @@
 <h2 class="mb-5 text-lg font-semibold text-secondary">Dokumen Masuk</h2>
 
 <form method="GET" class="mb-5 flex flex-wrap gap-3">
-    <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama, sekolah, atau jenis dokumen..."
+    <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama atau sekolah..."
            class="min-w-[240px] flex-1 rounded-lg border border-ink/15 px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
     <select name="status" class="rounded-lg border border-ink/15 px-3 py-2 text-sm">
         <option value="">Semua Status</option>
@@ -25,7 +25,7 @@
             <thead class="border-b border-ink/5 text-xs uppercase text-ink/40">
                 <tr>
                     <th class="px-4 py-3">Pengirim</th>
-                    <th class="px-4 py-3">Jenis Dokumen</th>
+                    <th class="px-4 py-3">File</th>
                     <th class="px-4 py-3">Sekolah</th>
                     <th class="px-4 py-3">Tanggal</th>
                     <th class="px-4 py-3">Status</th>
@@ -36,11 +36,11 @@
                 @foreach ($uploads as $upload)
                     <tr>
                         <td class="px-4 py-3">
-                            <p class="font-medium text-secondary">{{ $upload->name }}</p>
-                            <p class="text-xs text-ink/40">{{ $upload->email }}</p>
+                            <p class="font-medium text-secondary">{{ $upload->user?->name ?? '-' }}</p>
+                            <p class="text-xs text-ink/40">{{ $upload->user?->email ?? '-' }}</p>
                         </td>
-                        <td class="px-4 py-3 text-ink/60">{{ $upload->document_type }}</td>
-                        <td class="px-4 py-3 text-ink/60">{{ $upload->school }}</td>
+                        <td class="px-4 py-3 text-ink/60">{{ $upload->original_filename }}</td>
+                        <td class="px-4 py-3 text-ink/60">{{ $upload->user?->school ?? '-' }}</td>
                         <td class="px-4 py-3 text-ink/60">{{ $upload->uploaded_at->translatedFormat('d M Y H:i') }}</td>
                         <td class="px-4 py-3">
                             <span class="rounded-full px-2.5 py-1 text-xs font-medium
@@ -52,7 +52,7 @@
                             <div class="flex items-center justify-end gap-3">
                                 <a href="{{ route('admin.uploads.show', $upload) }}" class="text-ink/50 hover:text-primary" title="Detail"><x-lucide-eye class="h-4 w-4" /></a>
                                 <a href="{{ route('admin.uploads.download', $upload) }}" class="text-ink/50 hover:text-primary" title="Download"><x-lucide-download class="h-4 w-4" /></a>
-                                <x-confirm-delete :action="route('admin.uploads.destroy', $upload)" :label="'dokumen dari '.$upload->name" />
+                                <x-confirm-delete :action="route('admin.uploads.destroy', $upload)" :label="'dokumen dari '.($upload->user?->name ?? 'pengguna tidak dikenal')" />
                             </div>
                         </td>
                     </tr>
