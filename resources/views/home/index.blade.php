@@ -111,7 +111,7 @@
             @foreach ([
                 ['icon' => 'info', 'title' => 'Apa itu?', 'text' => 'Platform digital pemusat informasi supervisi akademik.'],
                 ['icon' => 'lightbulb', 'title' => 'Mengapa dibuat?', 'text' => 'Menjawab kebutuhan transformasi digital supervisi.'],
-                ['icon' => 'users', 'title' => 'Siapa penggunanya?', 'text' => 'Guru, kepala sekolah, dan pengawas sekolah.'],
+                ['icon' => 'users', 'title' => 'Siapa penggunanya?', 'text' => 'kepala sekolah, dan pengawas sekolah.'],
                 ['icon' => 'sparkles', 'title' => 'Apa manfaatnya?', 'text' => 'Proses supervisi lebih efektif, transparan, terstruktur.'],
             ] as $point)
                 <div class="rounded-2xl bg-surface p-5">
