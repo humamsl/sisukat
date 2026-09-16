@@ -26,6 +26,7 @@ class UpdateBookRequest extends FormRequest
             'pages_count' => ['nullable', 'integer', 'min:1'],
             'cover' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:'.$coverMax],
             'file' => ['nullable', 'file', 'mimes:pdf', 'max:'.$fileMax],
+            'read_url' => ['nullable', 'url', 'max:2048'],
             'status' => ['required', Rule::in(['draft', 'published'])],
         ];
     }

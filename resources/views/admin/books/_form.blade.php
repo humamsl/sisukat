@@ -84,8 +84,16 @@
             @endisset
             <input id="file" name="file" type="file" accept="application/pdf"
                    class="w-full rounded-lg border border-ink/15 px-3 py-2 text-sm file:mr-3 file:rounded-md file:border-0 file:bg-primary/10 file:px-3 file:py-1.5 file:text-primary">
-            <p class="mt-1 text-xs text-ink/40">PDF, maks {{ number_format(config('sisukat.uploads.book_file_max_kb') / 1024, 1) }} MB.</p>
+            <p class="mt-1 text-xs text-ink/40">PDF, maks {{ number_format(config('sisukat.uploads.book_file_max_kb') / 1024, 1) }} MB. Wajib diisi jika Link Baca Online kosong.</p>
             @error('file') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
+        </div>
+
+        <div>
+            <label for="read_url" class="mb-1 block text-sm font-medium text-secondary">Link Baca Online</label>
+            <input id="read_url" name="read_url" type="url" value="{{ old('read_url', $book->read_url ?? '') }}" placeholder="https://..."
+                   class="w-full rounded-lg border border-ink/15 px-3 py-2 text-sm">
+            <p class="mt-1 text-xs text-ink/40">Opsional. Jika diisi, tombol "Baca Online" akan mengarah ke link ini (mis. flipbook eksternal) alih-alih pembaca PDF internal.</p>
+            @error('read_url') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
         </div>
     </div>
 </div>

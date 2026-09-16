@@ -13,17 +13,6 @@ use App\Http\Controllers\TutorialController;
 use App\Http\Controllers\UploadController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Rute publik (tanpa login)
-|--------------------------------------------------------------------------
-|
-| SISUKAT adalah portal untuk staf & pengguna terdaftar: hanya Home,
-| Login, dan Daftar yang bisa diakses tanpa login. Seluruh halaman
-| konten (Pendahuluan, Buku Panduan, Tutorial, Instrumen, Upload,
-| Pencarian) mewajibkan autentikasi — lihat grup 'auth' di bawah.
-|
-*/
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 

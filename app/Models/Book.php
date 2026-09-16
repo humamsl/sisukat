@@ -24,6 +24,7 @@ class Book extends Model
         'pages_count',
         'cover',
         'file',
+        'read_url',
         'download_count',
         'status',
     ];

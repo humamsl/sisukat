@@ -17,14 +17,23 @@
             </div>
 
             <div class="mt-4 space-y-2">
-                @if ($book->file)
+                @if ($book->read_url)
+                    <a href="{{ $book->read_url }}" target="_blank" rel="noopener" class="flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white hover:opacity-90">
+                        <x-lucide-book-open-text class="h-4 w-4" /> Baca Online
+                    </a>
+                @elseif ($book->file)
                     <a href="{{ route('books.read', $book) }}" class="flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white hover:opacity-90">
                         <x-lucide-book-open-text class="h-4 w-4" /> Baca Online
                     </a>
+                @endif
+
+                @if ($book->file)
                     <a href="{{ route('books.download', $book) }}" class="flex w-full items-center justify-center gap-2 rounded-lg border border-ink/15 px-4 py-2.5 text-sm font-semibold text-secondary hover:bg-ink/5">
                         <x-lucide-download class="h-4 w-4" /> Download
                     </a>
-                @else
+                @endif
+
+                @if (! $book->read_url && ! $book->file)
                     <p class="rounded-lg bg-ink/5 px-4 py-2.5 text-center text-sm text-ink/50">File belum tersedia.</p>
                 @endif
             </div>

@@ -26,7 +26,8 @@ class StoreBookRequest extends FormRequest
             'year' => ['nullable', 'integer', 'min:1900', 'max:'.(date('Y') + 1)],
             'pages_count' => ['nullable', 'integer', 'min:1'],
             'cover' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:'.$coverMax],
-            'file' => ['required', 'file', 'mimes:pdf', 'max:'.$fileMax],
+            'file' => ['required_without:read_url', 'file', 'mimes:pdf', 'max:'.$fileMax],
+            'read_url' => ['required_without:file', 'nullable', 'url', 'max:2048'],
             'status' => ['required', Rule::in(['draft', 'published'])],
         ];
     }

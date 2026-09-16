@@ -20,7 +20,7 @@
                 <p class="mt-3 max-w-sm text-sm">Sistem Informasi Supervisi Akademik Terpadu — platform digital untuk mendukung pelaksanaan supervisi akademik secara efektif dan terstruktur.</p>
             </div>
 
-            <div>
+            <!--<div>
                 <h3 class="mb-3 text-sm font-semibold text-white">Navigasi</h3>
                 <ul class="space-y-2 text-sm">
                     @auth
@@ -46,7 +46,7 @@
         </div>
 
         <div class="mt-10 border-t border-white/10 pt-6 text-center text-xs text-white/50">
-            &copy; {{ now()->year }} SISUKAT. All Rights Reserved.
-        </div>
+            &copy; {{ now()->year }} MHS | SISUKAT. All Rights Reserved.
+        </div>-->
     </div>
 </footer>
