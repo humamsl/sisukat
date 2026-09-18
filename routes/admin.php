@@ -48,4 +48,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::put('settings', [SettingController::class, 'update'])->name('settings.update');
 
     Route::get('activity-logs', [ActivityLogController::class, 'index'])->name('activity-logs.index');
+    Route::get('activity-logs/export/excel', [ActivityLogController::class, 'exportExcel'])->name('activity-logs.export.excel');
+    Route::get('activity-logs/export/word', [ActivityLogController::class, 'exportWord'])->name('activity-logs.export.word');
 });

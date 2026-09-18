@@ -3,7 +3,17 @@
 @section('title', 'Log Aktivitas')
 
 @section('content')
-<h2 class="mb-5 text-lg font-semibold text-secondary">Log Aktivitas Admin</h2>
+<div class="mb-5 flex flex-wrap items-center justify-between gap-3">
+    <h2 class="text-lg font-semibold text-secondary">Log Aktivitas Admin</h2>
+    <div class="flex items-center gap-2">
+        <a href="{{ route('admin.activity-logs.export.excel', request()->query()) }}" class="inline-flex items-center gap-2 rounded-lg border border-ink/15 px-4 py-2 text-sm font-medium text-secondary hover:bg-ink/5">
+            <x-lucide-file-spreadsheet class="h-4 w-4" /> Export Excel
+        </a>
+        <a href="{{ route('admin.activity-logs.export.word', request()->query()) }}" class="inline-flex items-center gap-2 rounded-lg border border-ink/15 px-4 py-2 text-sm font-medium text-secondary hover:bg-ink/5">
+            <x-lucide-file-text class="h-4 w-4" /> Export Word
+        </a>
+    </div>
+</div>
 
 <form method="GET" class="mb-5 flex flex-wrap gap-3">
     <select name="action" class="rounded-lg border border-ink/15 px-3 py-2 text-sm">
@@ -12,6 +22,22 @@
             <option value="{{ $action }}" @selected(request('action') === $action)>{{ ucfirst($action) }}</option>
         @endforeach
     </select>
+
+    <select name="user_filter" class="rounded-lg border border-ink/15 px-3 py-2 text-sm">
+        <option value="">Semua User</option>
+        <option value="exclude_admin" @selected(request('user_filter') === 'exclude_admin')>Semua User (Tanpa Admin/Staff)</option>
+        <optgroup label="Staff / Admin">
+            @foreach ($users->whereIn('role', ['super_admin', 'admin', 'reviewer']) as $u)
+                <option value="{{ $u->id }}" @selected(request('user_filter') == $u->id)>{{ $u->name }}</option>
+            @endforeach
+        </optgroup>
+        <optgroup label="User Publik">
+            @foreach ($users->where('role', 'user') as $u)
+                <option value="{{ $u->id }}" @selected(request('user_filter') == $u->id)>{{ $u->name }}</option>
+            @endforeach
+        </optgroup>
+    </select>
+
     <button type="submit" class="rounded-lg bg-secondary px-4 py-2 text-sm font-medium text-white">Filter</button>
 </form>
 
